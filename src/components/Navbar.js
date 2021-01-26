@@ -13,6 +13,7 @@ import InputBase from '@material-ui/core/InputBase';
 import Avatar from '@material-ui/core/Avatar';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import logo from '../assets/dj.png'
+import Link from '@material-ui/core/Link';
 
 
 
@@ -96,12 +97,14 @@ const handleMenu = (event) => {
    
       <AppBar position="static">
         <Toolbar>
+          <Link href="/" >
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
             
           {/* <img src = {logo2} style={{width:50, height:50}}/> */}
           <Avatar alt="Remy Sharp" src={logo} className={classes.small} />
           {/* <img src = {logo} style={{width:50, height:50}}/> */}
           </IconButton>
+          </Link>
           <Typography variant="h6" className={classes.title}>
           Blog
           </Typography>
@@ -119,9 +122,12 @@ const handleMenu = (event) => {
               inputProps={{ 'aria-label': 'search' }}
             />
           </div>
-
-          <Button color="inherit" className={matches ? null :classes.font}>Login</Button>
+          <Link href="/login" color="inherit">
+          <Button color="inherit" className={matches ? null :classes.font}> Login</Button>
+          </Link>
+          <Link href="/register" color="inherit">
           <Button color="inherit" className={matches ? null :classes.font}>Register</Button>
+          </Link>
           <IconButton
                 aria-label="account of current user"
                 aria-controls="menu-appbar"

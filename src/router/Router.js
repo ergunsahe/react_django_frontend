@@ -15,8 +15,8 @@ function AppRouter(params) {
         <Router>
             <Navbar/>
             <Switch>
-                <Route exact path="/home" component={HomePage} />
-                <Route exact path="/detail" component={DetailPage} />
+                <Route exact path="/" component={HomePage} />
+                <Route exact path="/:slug/detail" component={DetailPage} />
                 <Route exact path="/register" component={SignUp} />
                 <Route exact path="/login" component={SignIn} />
                 <Route exact path="/profile" component={ProfilePage} />

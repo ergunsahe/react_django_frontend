@@ -15,6 +15,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
+import Link from '@material-ui/core/Link';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -23,10 +24,12 @@ const useStyles = makeStyles((theme) => ({
     marginTop:50
   },
   media: {
-    height: 0,
+
+    height:0,
     paddingTop: '56.25%', // 16:9
   },
   expand: {
+    
     transform: 'rotate(0deg)',
     marginLeft: 'auto',
     transition: theme.transitions.create('transform', {
@@ -41,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function BlogCard() {
+export default function BlogCard({post}) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
@@ -51,48 +54,50 @@ export default function BlogCard() {
 
   return (
     <Card className={classes.root}>
-      <CardHeader
-        avatar={
-          <Avatar aria-label="recipe" className={classes.avatar}>
-            R
-          </Avatar>
-        }
-        
-        title="Shrimp and Chorizo Paella"
-        subheader="September 14, 2016"
-      />
-      <CardMedia
-        className={classes.media}
-        image= "https://picsum.photos/id/1/200/300"
-        title="Paella dish"
-      />
-      <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
-          This impressive paella is a perfect party dish and a fun meal to cook together with your
-          guests. Add 1 cup of frozen peas along with the mussels, if you like.
-        </Typography>
-      </CardContent>
-      <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton aria-label="comment">
-          <ChatBubbleOutlineIcon />
-        </IconButton>
-        <IconButton aria-label="visibility">
-          <VisibilityIcon />
-        </IconButton>
-        <IconButton
-          className={clsx(classes.expand, {
-            [classes.expandOpen]: expanded,
-          })}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </IconButton>
-      </CardActions>
-    </Card>
+        <Link href={`/${post.slug}/detail/`} >
+        <CardHeader
+          avatar={
+            <Avatar aria-label="recipe" className={classes.avatar}>
+              {post.author[0]}
+            </Avatar>
+          }
+          
+          title={post.title}
+          subheader="September 14, 2016"
+        />
+        </Link>
+        <CardMedia
+          className={classes.media}
+          image= "https://picsum.photos/id/1/200/300"
+          title="Paella dish"
+        />
+        <CardContent>
+          <Typography variant="body2" color="textSecondary" component="p">
+            {post.content} 
+          </Typography>
+        </CardContent>
+        <CardActions disableSpacing>
+          <IconButton aria-label="add to favorites">
+            <FavoriteIcon />{post.like_count}
+          </IconButton>
+          <IconButton aria-label="comment">
+            <ChatBubbleOutlineIcon />{post.comment_count}
+          </IconButton>
+          <IconButton aria-label="visibility">
+            <VisibilityIcon />{post.view_count}
+          </IconButton>
+          <IconButton
+            className={clsx(classes.expand, {
+              [classes.expandOpen]: expanded,
+            })}
+            onClick={handleExpandClick}
+            aria-expanded={expanded}
+            aria-label="show more"
+          >
+            <ExpandMoreIcon />
+          </IconButton>
+        </CardActions>
+      </Card>
+    
   );
 }
