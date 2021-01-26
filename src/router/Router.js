@@ -4,7 +4,11 @@ import  DetailPage from "../pages/DetailPage";
 import  HomePage from "../pages/HomePage";
 import SignUp from "../pages/Register" 
 import SignIn from "../pages/LoginPage" 
+import ProfilePage from "../pages/ProfilePage." 
 import  Navbar from "../components/Navbar"
+import PostPage from "../pages/PostPage"
+import UpdatePost from "../pages/UpdatePage"
+
 
 function AppRouter(params) {
     return (
@@ -15,6 +19,9 @@ function AppRouter(params) {
                 <Route exact path="/detail" component={DetailPage} />
                 <Route exact path="/register" component={SignUp} />
                 <Route exact path="/login" component={SignIn} />
+                <Route exact path="/profile" component={ProfilePage} />
+                <Route exact path="/create" component={PostPage} />
+                <Route exact path="/update" component={UpdatePost} />
                 {/* <Route exact path="/forgot-password" component={ForgotPassword} /> */}
                 {/* <Route
                     exact
