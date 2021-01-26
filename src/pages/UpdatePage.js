@@ -16,6 +16,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import CKEditor from 'ckeditor4-react';
   
   const CssTextField = withStyles({
     root: {
@@ -42,20 +43,11 @@ import Select from '@material-ui/core/Select';
   
   const useStyles = makeStyles((theme) => ({
     root: {
-      height: "100vh",
+      height: "100%",
+      overflow:"hidden"
     },
     rootQuery: {
         width:"90vw"
-    },
-    image: {
-      backgroundImage: "url(https://picsum.photos/640/480)",
-      backgroundRepeat: "no-repeat",
-      backgroundColor:
-        theme.palette.type === "light"
-          ? theme.palette.grey[50]
-          : theme.palette.grey[900],
-      backgroundSize: "cover",
-      backgroundPosition: "center",
     },
     paper: {
       margin: theme.spacing(8, 4),
@@ -69,37 +61,20 @@ import Select from '@material-ui/core/Select';
       margin: theme.spacing(1),
       backgroundColor: theme.palette.primary.main,
     },
-    submit: {
-      margin: theme.spacing(3, 0, 2),
-      marginTop: "4rem",
-    },
-    linkWrapper: {
-      textAlign: "center",
-      margin: theme.spacing(1.5),
-    },
+    
     form: {
-      marginTop: "3rem",
-      alignItems: "center",
-      // backgroundColor: "green",
-      paddingLeft: "20%",
-      paddingRight: "5%",
-    },
+        marginTop: "3rem",
+        alignItems: "center",
+        width : '80%',
+        paddingLeft: "10%",
+      },
     form2: {
-      marginTop: "3rem",
-      alignItems: "center",
+        marginTop: "3rem",
+        alignItems: "center",
+        width : '100%',
     },
     margin: {
       margin: 2,
-      marginTop: 13,
-    },
-    address: {
-      marginTop: 13,
-      margin: 2,
-      width: "80.5%",
-    },
-    bio: {
-      margin: 2,
-      // width : "80.5%",
       marginTop: 13,
     },
     button: {
@@ -149,7 +124,7 @@ const UpdatePost = () => {
   };
     
     const matches = useMediaQuery("(min-width:750px)");
-    const matchesMobil = useMediaQuery("(max-width:750px)");
+   
   
     return (
       <Grid container component="main" className={classes.root}>
@@ -178,16 +153,36 @@ const UpdatePost = () => {
                 label="Image URL"
                 variant="outlined"
               />
-              <CssTextField
-                className={classes.margin}
-                // style={{ width: matches ? "80.5%" : "100%" }}
-                variant="outlined"
-                multiline
-                rows={8}
-                id="content"
-                name="content"
-                label="Content"
-              />
+               {
+                matches
+                ?
+                <div className="App" style={{  marginTop:20,width: matches ? "80.5%" : "100%" }}>
+            
+                    <CKEditor
+                        // data="<p>Hello from CKEditor 4!</p>"
+                        className={classes.margin}
+                        variant="outlined"
+                        multiline
+                        rows={8}
+                        id="content"
+                        name="content"
+                        label="Content"
+                        
+                    />
+                </div>
+                :
+                <CssTextField
+              
+                    className={classes.margin}
+                    style={{width: matches ? "80.5%" : "100%" }}
+                    variant="outlined"
+                    multiline
+                    rows={8}
+                    id="content"
+                    name="content"
+                    label="Content"
+                />
+              }
               <FormControl variant="outlined" className={classes.formControl}>
                 <InputLabel htmlFor="outlined-age-native-simple">Status</InputLabel>
                 <Select

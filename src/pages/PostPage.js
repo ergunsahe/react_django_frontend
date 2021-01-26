@@ -1,13 +1,9 @@
 import React from 'react';
-import {
-    withStyles,
-  } from "@material-ui/core/styles";
-  
+import {withStyles} from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
-import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
@@ -16,6 +12,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import CKEditor from 'ckeditor4-react';
   
   const CssTextField = withStyles({
     root: {
@@ -42,17 +39,8 @@ import Select from '@material-ui/core/Select';
   
   const useStyles = makeStyles((theme) => ({
     root: {
-      height: "100vh",
-    },
-    image: {
-      backgroundImage: "url(https://picsum.photos/640/480)",
-      backgroundRepeat: "no-repeat",
-      backgroundColor:
-        theme.palette.type === "light"
-          ? theme.palette.grey[50]
-          : theme.palette.grey[900],
-      backgroundSize: "cover",
-      backgroundPosition: "center",
+      height: "100%",
+      overflow:"hidden"
     },
     paper: {
       margin: theme.spacing(8, 4),
@@ -66,24 +54,17 @@ import Select from '@material-ui/core/Select';
       margin: theme.spacing(1),
       backgroundColor: theme.palette.primary.main,
     },
-    submit: {
-      margin: theme.spacing(3, 0, 2),
-      marginTop: "4rem",
-    },
-    linkWrapper: {
-      textAlign: "center",
-      margin: theme.spacing(1.5),
-    },
+    
     form: {
-      marginTop: "3rem",
-      alignItems: "center",
-      // backgroundColor: "green",
-      paddingLeft: "20%",
-      paddingRight: "5%",
-    },
-    form2: {
-      marginTop: "3rem",
-      alignItems: "center",
+        marginTop: "3rem",
+        alignItems: "center",
+        width : '80%',
+        paddingLeft: "10%",
+      },
+      form2: {
+        marginTop: "3rem",
+        alignItems: "center",
+        width : '100%',
     },
     margin: {
       margin: 2,
@@ -96,7 +77,6 @@ import Select from '@material-ui/core/Select';
     },
     bio: {
       margin: 2,
-      // width : "80.5%",
       marginTop: 13,
     },
     button: {
@@ -133,7 +113,7 @@ import Select from '@material-ui/core/Select';
   const PostPage = () => {
     const classes = useStyles();
     const [state, setState] = React.useState({
-    age: '',
+    status: '',
     name: 'hai',
   });
 
@@ -174,6 +154,25 @@ import Select from '@material-ui/core/Select';
                 label="Image URL"
                 variant="outlined"
               />
+
+            {
+                matches
+                ?
+                <div className="App" style={{  marginTop:20,width: matches ? "80.5%" : "100%" }}>
+            
+                    <CKEditor
+                        // data="<p>Hello from CKEditor 4!</p>"
+                        className={classes.margin}
+                        variant="outlined"
+                        multiline
+                        rows={8}
+                        id="content"
+                        name="content"
+                        label="Content"
+                        
+                    />
+                </div>
+                :
               <CssTextField
                 className={classes.margin}
                 style={{ width: matches ? "80.5%" : "100%" }}
@@ -184,6 +183,7 @@ import Select from '@material-ui/core/Select';
                 name="content"
                 label="Content"
               />
+            }
               <FormControl variant="outlined" className={classes.formControl}>
                 <InputLabel htmlFor="outlined-age-native-simple">Status</InputLabel>
                 <Select
