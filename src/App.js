@@ -3,13 +3,14 @@
 // import Home from "./pages/HomePage"
 // import DetailPage from "./pages/DetailPage"
 import AppRouter from "./router/Router"
+import AuthContextProvider from "./context/AuthContext";
 
 
 function App() {
   return (
-    <div >
+    <AuthContextProvider >
       <AppRouter/>
-    </div>
+    </AuthContextProvider>
   );
 }
 

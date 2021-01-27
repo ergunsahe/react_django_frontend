@@ -96,7 +96,7 @@ export default function CardDetail({post}) {
         title= {post?.title}
         subheader={moment(post?.publish_date).startOf('hour').fromNow()  }
       />
-      <Typography style={{fontSize:18, margin:20, color:'crimson'}}>created by {post?.author}</Typography>
+      <Typography style={{fontSize:18, margin:20, color:'crimson'}}><i>created by {post?.author}</i> </Typography>
       <CardMedia
         className={classes.media}
         image={post?.image}
@@ -161,9 +161,9 @@ export default function CardDetail({post}) {
       </form>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          {post?.comments.map((comment) =>{
+          {post?.comments.map((comment, index) =>{
             return (
-              <Typography paragraph><b>{comment.content}</b> comment by <i>{comment.user}</i> at {moment(comment.time).startOf('hour').fromNow()}</Typography>
+              <Typography key={index} paragraph><b>{comment.content}</b> comment by <i>{comment.user}</i> at {moment(comment.time).startOf('hour').fromNow()}</Typography>
 
             )
             })

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext,} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -14,6 +14,9 @@ import Avatar from '@material-ui/core/Avatar';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import logo from '../assets/dj.png'
 import Link from '@material-ui/core/Link';
+import { useHistory, Redirect } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
+import axios from 'axios'
 
 
 
@@ -30,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
   root: {
     flexGrow: 1,
-    overflow:"hidden"
+    overflow:'hidden'
   },
   menuButton: {
     marginRight: theme.spacing(),
@@ -81,17 +84,29 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function NavBar() {
-const classes = useStyles();
-const [anchorEl, setAnchorEl] = React.useState(null);
-const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  const { setLoggedIn, currentUser, setCurrentUser } = useContext(AuthContext);
+  let history = useHistory();
+  const classes = useStyles();
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const handleMenu = (event) => {
+      setAnchorEl(event.currentTarget);
+    };
   const handleClose = () => {
-    setAnchorEl(null);
-  };
+      setAnchorEl(null);
+    };
   const open = Boolean(anchorEl);
  
   const matches = useMediaQuery('(min-width:750px)');
+
+  const postLogout = async () =>{
+    await axios.post("https://rd-restful-blog.herokuapp.com/auth/logout/")
+    setLoggedIn(false)
+    setCurrentUser('')
+    localStorage.setItem("Token", "")
+    history.push("/")
+    };
+
+  
 
   return (
     <div className={classes.root}>
@@ -120,13 +135,18 @@ const handleMenu = (event) => {
               inputProps={{ 'aria-label': 'search' }}
             />
           </div>
-
-          <Link href="/login" color="inherit" style={{textDecoration:'none'}}>
-          <Button color="inherit" className={matches ? null :classes.font}> Login</Button>
-          </Link>
-          <Link href="/register" color="inherit" style={{textDecoration:'none'}}>
-          <Button color="inherit" className={matches ? null :classes.font}>Register</Button>
-          </Link>
+              {
+                ! localStorage.getItem("Token") ?
+                <>
+                  <Link href="/login" color="inherit" style={{textDecoration:'none'}}>
+                  <Button color="inherit" className={matches ? null :classes.font}> Login</Button>
+                  </Link>
+                  <Link href="/register" color="inherit" style={{textDecoration:'none'}}>
+                  <Button color="inherit" className={matches ? null :classes.font}>Register</Button>
+                  </Link>
+                </>:
+                null
+              }
 
           <IconButton
                 aria-label="account of current user"
@@ -152,8 +172,15 @@ const handleMenu = (event) => {
                 open={open}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
+                {
+                  localStorage.getItem("Token") ?
+                  <>
+                    <MenuItem onClick={() => history.push('/create')}>New Post</MenuItem>
+                    <MenuItem onClick={() => history.push('/profile')}>Profile</MenuItem>
+                    <MenuItem onClick={postLogout}>Logout</MenuItem>
+                  </>
+                  : null
+                }
               </Menu>
         </Toolbar>
       </AppBar>
