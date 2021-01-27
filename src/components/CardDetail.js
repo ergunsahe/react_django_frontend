@@ -16,20 +16,24 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Collapse from '@material-ui/core/Collapse';
+import Badge from '@material-ui/core/Badge';
+import moment from 'moment';
 
 import TextField from '@material-ui/core/TextField';
 
-  import Button from '@material-ui/core/Button';
-  import Icon from '@material-ui/core/Icon';
+import Button from '@material-ui/core/Button';
+import Icon from '@material-ui/core/Icon';
   
   
 
 const useStyles = makeStyles((theme) => ({
   root: {
     // maxWidth: 350,
+    minHeight:'100%',
     marginTop : 50,
     paddingRight : 150,
-    paddingLeft : 150
+    paddingLeft : 150,
+    
   },
   
   button: {
@@ -88,18 +92,15 @@ export default function CardDetail({post}) {
             {post?.author[0]}
           </Avatar>
         }
-        // action={
-        //   <IconButton aria-label="settings">
-        //     <MoreVertIcon />
-        //   </IconButton>
-        // }
+        
         title= {post?.title}
-        subheader="September 14, 2016"
+        subheader={moment(post?.publish_date).startOf('hour').fromNow()  }
       />
+      <Typography style={{fontSize:18, margin:20, color:'crimson'}}>created by {post?.author}</Typography>
       <CardMedia
         className={classes.media}
-        image='https://reactjs.org/logo-og.png'
-        title="Paella dish"
+        image={post?.image}
+        title="Card Image"
       />
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
@@ -108,13 +109,19 @@ export default function CardDetail({post}) {
       </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
-          <FavoriteIcon />{post?.like_count}
+          <Badge badgeContent={post?.like_count} color="secondary">
+            <FavoriteIcon />
+          </Badge>
         </IconButton>
         <IconButton aria-label="Visibility">
-          <VisibilityIcon />{post?.view_count}
+          <Badge badgeContent={post?.view_count} color="secondary">
+            <VisibilityIcon />
+          </Badge>
         </IconButton>
         <IconButton aria-label="ChatBubbleOutline">
-          <ChatBubbleOutlineIcon />{post?.comment_count}
+          <Badge badgeContent={post?.comment_count} color="secondary">
+          <ChatBubbleOutlineIcon />
+          </Badge>
         </IconButton>
         <IconButton
           className={clsx(classes.expand, {
@@ -156,7 +163,7 @@ export default function CardDetail({post}) {
         <CardContent>
           {post?.comments.map((comment) =>{
             return (
-              <Typography paragraph><b>{comment.content}</b> comment by <i>{comment.user}</i> at {comment.time}</Typography>
+              <Typography paragraph><b>{comment.content}</b> comment by <i>{comment.user}</i> at {moment(comment.time).startOf('hour').fromNow()}</Typography>
 
             )
             })

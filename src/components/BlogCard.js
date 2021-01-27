@@ -16,6 +16,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 import Link from '@material-ui/core/Link';
+import Badge from '@material-ui/core/Badge';
+import moment from 'moment';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -42,6 +44,9 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     backgroundColor: red[500],
   },
+  header: {
+    textOverflow:'ellipsis',overflow: 'hidden',whiteSpace: 'nowrap'
+  },
 }));
 
 export default function BlogCard({post}) {
@@ -54,8 +59,8 @@ export default function BlogCard({post}) {
 
   return (
     <Card className={classes.root}>
-        <Link href={`/${post.slug}/detail/`} >
-        <CardHeader
+        <Link color='inherit' style={{textDecoration:'none'}} href={`/${post.slug}/detail/`} >
+        <CardHeader className={classes.header}
           avatar={
             <Avatar aria-label="recipe" className={classes.avatar}>
               {post.author[0]}
@@ -63,28 +68,35 @@ export default function BlogCard({post}) {
           }
           
           title={post.title}
-          subheader="September 14, 2016"
+          subheader={moment(post.publish_date).format('LL')}
         />
-        </Link>
+        
         <CardMedia
           className={classes.media}
-          image= "https://picsum.photos/id/1/200/300"
+          image= {`${post.image}`}
           title="Paella dish"
         />
+        </Link>
         <CardContent>
-          <Typography variant="body2" color="textSecondary" component="p">
-            {post.content} 
+          <Typography variant="body2" color="textSecondary" component="p" style={{height:75,paddingTop:2}}>
+          {post.content.substring(0,111) + '. . .'}
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
           <IconButton aria-label="add to favorites">
-            <FavoriteIcon />{post.like_count}
+          <Badge badgeContent={post.like_count} color="secondary">
+            <FavoriteIcon />
+            </Badge>
           </IconButton>
           <IconButton aria-label="comment">
-            <ChatBubbleOutlineIcon />{post.comment_count}
+          <Badge badgeContent={post.comment_count} color="secondary">
+            <ChatBubbleOutlineIcon />
+            </Badge>
           </IconButton>
           <IconButton aria-label="visibility">
-            <VisibilityIcon />{post.view_count}
+          <Badge badgeContent={post.view_count} color="secondary">
+            <VisibilityIcon />
+          </Badge>
           </IconButton>
           <IconButton
             className={clsx(classes.expand, {
@@ -97,6 +109,19 @@ export default function BlogCard({post}) {
             <ExpandMoreIcon />
           </IconButton>
         </CardActions>
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+        <CardContent>
+          <Typography paragraph>
+            
+            {post?.content?.length < 110 
+              ? 'No more content...'
+              : 
+              '➡️   . . .    ' + post?.content.substring(111,)
+            }
+            </Typography>
+          
+        </CardContent>
+      </Collapse>
       </Card>
     
   );

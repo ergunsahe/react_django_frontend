@@ -30,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
   root: {
     flexGrow: 1,
+    overflow:"hidden"
   },
   menuButton: {
     marginRight: theme.spacing(),
@@ -99,10 +100,7 @@ const handleMenu = (event) => {
         <Toolbar>
           <Link href="/" >
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-            
-          {/* <img src = {logo2} style={{width:50, height:50}}/> */}
           <Avatar alt="Remy Sharp" src={logo} className={classes.small} />
-          {/* <img src = {logo} style={{width:50, height:50}}/> */}
           </IconButton>
           </Link>
           <Typography variant="h6" className={classes.title}>
@@ -122,12 +120,14 @@ const handleMenu = (event) => {
               inputProps={{ 'aria-label': 'search' }}
             />
           </div>
-          <Link href="/login" color="inherit">
+
+          <Link href="/login" color="inherit" style={{textDecoration:'none'}}>
           <Button color="inherit" className={matches ? null :classes.font}> Login</Button>
           </Link>
-          <Link href="/register" color="inherit">
+          <Link href="/register" color="inherit" style={{textDecoration:'none'}}>
           <Button color="inherit" className={matches ? null :classes.font}>Register</Button>
           </Link>
+
           <IconButton
                 aria-label="account of current user"
                 aria-controls="menu-appbar"

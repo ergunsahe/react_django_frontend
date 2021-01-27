@@ -10,6 +10,7 @@ import axios from "axios"
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    overflow:"hidden"
   },
   paper: {
     padding: theme.spacing(2),
@@ -25,8 +26,7 @@ const DetailPage = () => {
   const fetchData = async () => {
     const res = await axios.get(`https://rd-restful-blog.herokuapp.com/${slug}/detail`)
     setPostDetail(res?.data)
-    // console.log(res)
-    console.log(res.data)
+    
 
   }
 
@@ -37,9 +37,9 @@ const DetailPage = () => {
     <div className={classes.root}>
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          {/* <BlogCard /> */}
+          
           <CardDetail post={postDetail}/>
-          {/* <Paper className={classes.paper}>xs=12</Paper> */}
+          
         </Grid>
       </Grid>
     </div>
