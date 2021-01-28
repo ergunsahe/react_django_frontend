@@ -16,7 +16,9 @@ import axios from 'axios'
 import { fetchData } from "../helper/FetchData";
 import { useHistory, Redirect } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import {useFormik} from "formik"
+import * as Yup from "yup"
 
 
 
@@ -53,49 +55,50 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn() {
-  let history = useHistory();
-  const { setLoggedIn, setCurrentUser} = useContext(AuthContext);
-  const classes = useStyles();
-  const [username, setUsername] = React.useState("")
-  const [password, setPassword] = React.useState("")
-  
-  // const [state, setState] = React.useState({
-  //   username: '',
-  //   password:''
-  // });
 
+export default function SignIn() {
+  const {setLoggedIn, setCurrentUser} = useContext(AuthContext)
+  let history = useHistory();
+  const classes = useStyles();
   
-   const handleUsername = (event) => {
-      const name = event.target.value;
-      setUsername(name);
-      console.log(username)
-  };
-   const handlePassword = (event) => {
-      const name = event.target.value;
-      setPassword(name);
-      console.log(password)
-  };
   
-  const postLogin = async () => {
-    console.log("hello from login")
-    fetchData("https://rd-restful-blog.herokuapp.com/auth/login/", {
-        username,
-        password
-      })
-      .then((data) => {
-        localStorage.setItem("Token", data.key);
-        setLoggedIn(true);
-        if (data.key){
-          setCurrentUser(username)
-        }
+  
+  const validationSchema = Yup.object().shape({
+    username: Yup.string().required("Username is required!!").max(100, "you can write until 100 chars"),
+    password: Yup.string()
+    .required("No password provided.")
+    .min(8, "Password is too short - should be 8 chars minimum."),
+  })
+  
+  const initialValues = {
+    username:'',
+    password:''
+  }
+  
+  const onSubmit = (values) =>{
+    fetchData("https://rd-restful-blog.herokuapp.com/auth/login/", values)
+    .then((data) => {
+      if (data.key){
+        setCurrentUser(values.username)
+        setLoggedIn(true)
+        localStorage.setItem("currentUser", values.username)
+        localStorage.setItem("isLoggedIn", true)
+        localStorage.setItem("Token", data.key)
         history.push("/");
+          
+        }
       })
       .catch((err) => {
-        toast(err?.message || "An error occured");
+        toast.error("Please check your username and password");      
       });
-  
     }
+
+    const formik = useFormik({
+      validationSchema,
+      initialValues,
+      onSubmit
+    })
+  
    
 
 
@@ -110,31 +113,26 @@ export default function SignIn() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        {/* <form className={classes.form} noValidate method="POST"> */}
+        <form className={classes.form} noValidate onSubmit={formik.handleSubmit}>
           <TextField
+            autoComplate="username"
+            name="username"
             variant="outlined"
             margin="normal"
+            autoFocus
             required
             fullWidth
             id="username"
             label="Username"
-            name="username"
-            autoComplete="username"
-            onChange={handleUsername}
-            autoFocus
+            value={formik.values.username}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            {...formik.getFieldProps('username')}
+            error={formik.touched.username && formik.errors.username}
+            helperText = {formik.touched.username && formik.errors.username}
+            
           />
-          {/* <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            onChange={handleChange}
-            autoFocus
-          /> */}
+          
           <TextField
             variant="outlined"
             margin="normal"
@@ -145,7 +143,12 @@ export default function SignIn() {
             type="password"
             id="password"
             autoComplete="current-password"
-            onChange={handlePassword}
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            {...formik.getFieldProps('password')}
+            error={formik.touched.username && formik.errors.password}
+            helperText = {formik.touched.username && formik.errors.password}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
@@ -157,12 +160,17 @@ export default function SignIn() {
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={() => {postLogin()}}
+            
             
           >
             Sign In
           </Button>
-        {/* </form> */}
+          <ToastContainer
+            position="top-center"
+            autoClose={2000}
+            draggable={false}
+          />
+        </form>
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">
@@ -184,15 +192,3 @@ export default function SignIn() {
   );
 }
 
-//  const handleChange = (event) => {
-  //     const name = event.target.name;
-  //     setState({
-  //        ...state,
-  //        [name]: event.target.value,
-  //     });
-  //     console.log(state)
-  // };
-
-  // const handleSubmit = async () => {
-  //   const obj= {...state}
-  //   console.log(obj)

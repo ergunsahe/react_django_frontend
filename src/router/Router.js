@@ -13,10 +13,9 @@ import { AuthContext } from "../context/AuthContext";
 
 
 function AppRouter(params) {
-    const {isLoggedIn, currentUser} = useContext(AuthContext);
-    console.log(isLoggedIn)
-    console.log(currentUser ? 'var':'yok')
-    console.log(localStorage.getItem("Token"))
+    const {currentUser, isLoggedIn} = useContext(AuthContext)
+    
+    
     return (
         <Router>
             <Navbar/>
@@ -27,17 +26,15 @@ function AppRouter(params) {
                     
                     ?
                     <>
-                        
                         <Route exact path="/register" component={SignUp} />
                         <Route exact path="/login" component={SignIn} />
                     </>
                     :
-                    <>
-                        
-                        <Route exact path="/:slug/detail" component={DetailPage} />
-                        <Route exact path="/profile" component={ProfilePage} />
-                        <Route exact path="/create" component={PostPage} />
-                        <Route exact path="/update" component={UpdatePost} />
+                    <> 
+                        <Route exact path="/:slug/detail" component={localStorage.getItem("Token") ? DetailPage: SignIn} />
+                        <Route exact path="/profile" component={localStorage.getItem("Token") ? ProfilePage: SignIn} />
+                        <Route exact path="/create" component={localStorage.getItem("Token") ? PostPage: SignIn} />
+                        <Route exact path="/update" component={localStorage.getItem("Token") ? UpdatePost:SignIn} />
                     </>
                 }
                 {/* <Route exact path="/forgot-password" component={ForgotPassword} /> */}

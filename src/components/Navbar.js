@@ -1,4 +1,4 @@
-import React, {useContext,} from 'react';
+import React, {useContext, useEffect,} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -17,6 +17,7 @@ import Link from '@material-ui/core/Link';
 import { useHistory, Redirect } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import axios from 'axios'
+import { Paper } from '@material-ui/core';
 
 
 
@@ -91,8 +92,12 @@ export default function NavBar() {
   const handleMenu = (event) => {
       setAnchorEl(event.currentTarget);
     };
-  const handleClose = () => {
+  const handleClose = (path) => {
       setAnchorEl(null);
+      if (path==='/logout'){
+        postLogout()
+      }
+      history.push(path)
     };
   const open = Boolean(anchorEl);
  
@@ -100,12 +105,18 @@ export default function NavBar() {
 
   const postLogout = async () =>{
     await axios.post("https://rd-restful-blog.herokuapp.com/auth/logout/")
+    setCurrentUser(null)
     setLoggedIn(false)
-    setCurrentUser('')
     localStorage.setItem("Token", "")
-    history.push("/")
+    localStorage.setItem("currentUser", "")
+    localStorage.setItem("isLoggedIn", false)
+    history.push('/')
+    
+    
     };
+  // useEffect(() =>{
 
+  // }, [localStorage.getItem('Token')])
   
 
   return (
@@ -148,40 +159,48 @@ export default function NavBar() {
                 null
               }
 
-          <IconButton
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={open}
-                onClose={handleClose}
-              >
-                {
-                  localStorage.getItem("Token") ?
-                  <>
-                    <MenuItem onClick={() => history.push('/create')}>New Post</MenuItem>
-                    <MenuItem onClick={() => history.push('/profile')}>Profile</MenuItem>
-                    <MenuItem onClick={postLogout}>Logout</MenuItem>
-                  </>
+          {
+            localStorage.getItem("Token") ?
+            <>
+                <Typography>{currentUser}</Typography>
+                <IconButton
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={handleMenu}
+                  color="inherit"
+                >
+                  <AccountCircle />
+                </IconButton>
+                  <Menu
+                    id="menu-appbar"
+                    anchorEl={anchorEl}
+                    anchorOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right',
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right',
+                    }}
+                    open={open}
+                    onClose={handleClose}
+                  >
+                      <Link href="/create" color="inherit" style={{textDecoration:'none'}}>
+                        <MenuItem onClick={handleClose}>New Post</MenuItem>
+                      </Link>  
+                      <Link href="/profile" color="inherit" style={{textDecoration:'none'}}>
+                        <MenuItem onClick={handleClose}>Profile</MenuItem>
+                      </Link>
+                                  
+                      <MenuItem onClick={() => handleClose("/logout")}>Logout</MenuItem>
+                        
+                      
+                  </Menu>
+              </>
                   : null
                 }
-              </Menu>
         </Toolbar>
       </AppBar>
     </div>

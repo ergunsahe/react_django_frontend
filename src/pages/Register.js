@@ -8,6 +8,11 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import * as Yup from "yup";
+import {useFormik} from "formik"
+import { useHistory } from "react-router-dom";
+import { fetchData } from "../helper/FetchData";
+import { toast, ToastContainer } from "react-toastify";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -45,6 +50,45 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
   const classes = useStyles();
+  const history = useHistory()
+  
+
+  const validationSchema = Yup.object().shape({
+    username: Yup.string().required("Username is required!!").max(100, "you can write until 100 chars"),
+    email: Yup.string().email().required("Email is required!!"),
+    password: Yup.string()
+    .required("No password provided.")
+    .min(8, "Password is too short - should be 8 chars minimum."),
+    password2: Yup.string()
+    .required("No password provided.")
+    .min(8, "Password is too short - should be 8 chars minimum.")
+    .oneOf([Yup.ref('password'), null], 'Passwords must match'),
+  })
+  
+  const initialValues = {
+    username:'',
+    email:'',
+    password:'',
+    password2:''
+  }
+  
+  const onSubmit = (values) =>{
+    fetchData("https://rd-restful-blog.herokuapp.com/users/register/", values)
+    .then((data) => { 
+
+        history.push("/login");
+      })
+      .catch((err) => {
+        toast.error(err.message || " an error occured");      
+      });
+    }
+
+    const formik = useFormik({
+      validationSchema,
+      initialValues,
+      onSubmit
+    })
+  
 
   return (
         <Grid container component="main" className={classes.root}>
@@ -58,39 +102,77 @@ export default function SignUp() {
               <Typography component="h1" variant="h5">
                 Sign Up
               </Typography>
-              <form >
+              <form className={classes.form} noValidate onSubmit={formik.handleSubmit}>
                 <TextField
-                  fullWidth
-                  margin="normal"
-                  id="username"
+                  // autoComplate="username"
                   name="username"
+                  variant="outlined"
+                  margin="normal"
+                  autoFocus
+                  required
+                  fullWidth
+                  id="username"
                   label="Username"
+                  value={formik.values.username}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  {...formik.getFieldProps('username')}
+                  error={formik.touched.username && formik.errors.username}
+                  helperText = {formik.touched.username && formik.errors.username}
                  
                 />
                 <TextField
-                  fullWidth
+                  variant="outlined"
                   margin="normal"
-                  id="email"
+                  required
+                  fullWidth
                   name="email"
                   label="Email"
+                  type="email"
+                  id="email"
+                  // autoComplete="email"
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  {...formik.getFieldProps('email')}
+                  error={formik.touched.username && formik.errors.email}
+                  helperText = {formik.touched.username && formik.errors.email}
                  
                 />
                 <TextField
-                  fullWidth
+                  variant="outlined"
                   margin="normal"
-                  id="password"
+                  required
+                  fullWidth
                   name="password"
                   label="Password"
                   type="password"
+                  id="password"
+                  // autoComplete="current-password"
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  {...formik.getFieldProps('password')}
+                  error={formik.touched.username && formik.errors.password}
+                  helperText = {formik.touched.username && formik.errors.password}
                  
                 />
                 <TextField
-                  fullWidth
+                  variant="outlined"
                   margin="normal"
-                  id="password2"
+                  required
+                  fullWidth
                   name="password2"
-                  label="Password Again"
+                  label="Password2"
                   type="password"
+                  id="password2"
+                  // autoComplete="current-password2"
+                  value={formik.values.password2}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  {...formik.getFieldProps('password2')}
+                  error={formik.touched.username && formik.errors.password2}
+                  helperText = {formik.touched.username && formik.errors.password2}
                  
     
                   
@@ -104,6 +186,7 @@ export default function SignUp() {
                 >
                   Sign Up
                 </Button>
+                <ToastContainer/>
               </form>
               {/*           <Grid container className={classes.linkWrapper}>
                 <Grid item xs textAlign="center">
