@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import {withStyles} from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Avatar from "@material-ui/core/Avatar";
@@ -9,13 +9,14 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import LocalMallIcon from "@material-ui/icons/LocalMall";
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import CKEditor from 'ckeditor4-react';
+
 import * as Yup from "yup";
 import {useFormik} from "formik"
 import { useHistory } from "react-router-dom";
-import { fetchData } from "../helper/FetchData";
-import { postData } from "../helper/PostData";
+
+import { putData } from "../helper/PutData";
 import { toast, ToastContainer } from "react-toastify";
+import axios from "axios"
 
 const CssTextField = withStyles({
   root: {
@@ -91,26 +92,64 @@ const ProfilePage = () => {
   
   const classes = useStyles();
   const matches = useMediaQuery('(min-width:750px)');
+  const history = useHistory()
+
+  const [data, setData] = useState()
+
+  const profilData = async () =>{
+    const Token = localStorage.getItem("Token")
+    const res = await axios.get("https://rd-restful-blog.herokuapp.com/users/profile", {
+        headers:{
+          "Authorization": `Token ${Token}`,
+        }
+    })
+     
+    console.log(res?.data)
+    formik.values.first_name=res?.data.first_name
+    formik.values.last_name=res?.data.last_name
+    formik.values.country=res?.data.country
+    formik.values.phone=res?.data.phone
+    formik.values.address=res?.data.address
+    formik.values.bio=res?.data.bio
+    setData(res?.data)
+  }
+
+
+  useEffect(() =>{
+    profilData()
+  }, [])
+  
   const validationSchema = Yup.object().shape({
-    content: Yup.string().required("Content is required!!"),
-    // image: Yup.string("You can add an url of an image with image extension"),
-    title: Yup.string().required("Title is required").max(100, "Title is too long, 100 chars "),
-    status: Yup.string()
-  })
+    first_name:Yup.string()
+      .max(200,'Title is too long'),
+    last_name:Yup.string()
+      .max(200,'Title is too long'),
+    address:Yup.string()
+      .max(200,'Title is too long'),
+    country:Yup.string()
+      .max(200,'Title is too long'),
+    phone:Yup.string()
+      .max(200,'Title is too long'),
+    bio:Yup.string()
+      .max(200,'Title is too long'),
+    })
+ 
   
   const initialValues = {
-    content:'',
-    image:'',
-    title:'',
-    status:''
+    first_name:'',
+    last_name:'',
+    address:'',
+    country:'',
+    phone:'',
+    bio:''
   }
   
   const onSubmit = (values) =>{
     console.log(values)
-    postData("https://rd-restful-blog.herokuapp.com/create/", values)
+    putData("https://rd-restful-blog.herokuapp.com/users/profile/", values)
     .then((data) => { 
 
-        history.push("/");
+        history.push("/profile");
       })
       .catch((err) => {
         toast.error(err.message || " an error occured");      
@@ -133,23 +172,37 @@ const ProfilePage = () => {
           <Typography component="h1" variant="h5">
             Profile
           </Typography>
-          <form className={matches ? classes.form : classes.form2} >
+          <form className={matches ? classes.form : classes.form2}  noValidate onSubmit={formik.handleSubmit}>
               
             <CssTextField
               className={classes.margin}
               style={{width : matches ? "40%" : "100%" }}
               variant="outlined"
-              id="firstname"
-              name="firstname"
+              defaultValue={data?.first_name}
+              id="first_name"
+              name="first_name"
               label="First Name"
+              value={formik.values.first_name}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              {...formik.getFieldProps('first_name')}
+              error={formik.touched.first_name && formik.errors.first_name}
+              helperText = {formik.touched.first_name && formik.errors.first_name}
               />
             <CssTextField
               className={classes.margin}
               style={{width : matches ? "40%" : "100%" }}
               id="last_name"
+              // defaultValue={data?.last_name}
               name="last_name"
               label="Last Name"
               variant="outlined"
+              value={formik.values.last_name}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              {...formik.getFieldProps('last_name')}
+              error={formik.touched.last_name && formik.errors.last_name}
+              helperText = {formik.touched.last_name && formik.errors.last_name}
               />
 
             <CssTextField
@@ -159,6 +212,13 @@ const ProfilePage = () => {
               id="country"
               name="country"
               label="Country"
+              value={formik.values.country}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              {...formik.getFieldProps('country')}
+              error={formik.touched.country && formik.errors.country}
+              helperText = {formik.touched.country && formik.errors.country}
+
               />
 
             <CssTextField
@@ -168,14 +228,29 @@ const ProfilePage = () => {
               id="phone"
               name="phone"
               label="Phone"
+              autoFocus
+              value={formik.values.phone}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              {...formik.getFieldProps('phone')}
+              error={formik.touched.phone && formik.errors.phone}
+              helperText = {formik.touched.phone && formik.errors.phone}
               />
+    
             <CssTextField
               className={classes.address}
               style={{width : matches ? "80.7%" : "100%" }}
               variant="outlined"
-              id="adress"
+              id="address"
               name="address"
+              autoFocus
               label="Address"
+              value={formik.values.address}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              {...formik.getFieldProps('address')}
+              error={formik.touched.address && formik.errors.address}
+              helperText = {formik.touched.address && formik.errors.address}
               />
             
             <CssTextField
@@ -186,7 +261,14 @@ const ProfilePage = () => {
               rows={8}
               id="bio"
               name="bio"
+              autoFocus
               label="Biografy"
+              value={formik.values.bio}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              {...formik.getFieldProps('bio')}
+              error={formik.touched.bio && formik.errors.bio}
+              helperText = {formik.touched.bio && formik.errors.bio}
             />
             
 
@@ -201,6 +283,7 @@ const ProfilePage = () => {
             >
               Update
             </Button>
+            <ToastContainer/>
           </form>
         </div>
       </Grid>

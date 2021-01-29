@@ -10,8 +10,55 @@ import EditIcon from '@material-ui/icons/Edit';
 import Link from '@material-ui/core/Link';
 import axios from 'axios';
 import Modal from '@material-ui/core/Modal';
-import {useHistory} from "react-router-dom";
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import {useHistory} from "react-router-dom";
+
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    position: 'absolute',
+    width: 400,
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+    textAlign : 'center',
+  },
+  paper1: {
+    position: 'absolute',
+    width: 200,
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+    marginLeft: 8,
+    textAlign : 'center'
+  },
+  container: {  
+    position : 'absolute',
+    top : 130,
+    right : 160,
+  },
+  container1: {
+    position : 'absolute',
+    top : 130,
+    right : 20,
+  },
+  menuText: {
+    fontSize : 15
+  },
+  menuText1: {
+    fontSize : 12
+  },
+  modalText: {
+    fontSize : 15,
+    marginRight : 10,
+  },
+  modalText1: {
+    fontSize : 12,
+    marginLeft : 10,
+  },
+  
+}));
 
 
 const StyledMenu = withStyles({
@@ -45,32 +92,7 @@ const StyledMenuItem = withStyles((theme) => ({
   },
 }))(MenuItem);
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    position: 'absolute',
-    width: 400,
-    backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-  },
-  container: {  
-    position : 'absolute',
-    top : 130,
-    right : 160,
-  },
-  container1: {
-    position : 'absolute',
-    top : 130,
-    right : 20,
-  },
-  menuText: {
-    fontSize : 15
-  },
-  menuText1: {
-    fontSize : 12
-  },
-}));
+
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -89,14 +111,13 @@ function getModalStyle() {
 
 export default function MenuComponent({slug}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const classes = useStyles();
-  const matches = useMediaQuery('(min-width:750px)');
   const [open, setOpen] = React.useState(false);
+  const classes = useStyles();
   const history =useHistory()
-
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
-
+  const matches = useMediaQuery('(min-width:750px)');
+//   const { slug } = useParams();
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -126,7 +147,7 @@ export default function MenuComponent({slug}) {
   }
 
   const body = (
-    <div style={modalStyle} className={classes.paper}>
+    <div style={modalStyle} className={matches ? classes.paper : classes.paper1}>
       <h2 id="simple-modal-title">Text in a modal</h2>
       <p id="simple-modal-description">
         Are you sure to delete this post ?
@@ -135,14 +156,15 @@ export default function MenuComponent({slug}) {
         variant="contained"
         color="primary"
         onClick={handleCloseModal}
-        style={{marginRight:20}}
-      >
+        className={matches ? classes.modalText : classes.modalText1}
+        >
         Cancel
       </Button>
       <Button
         variant="contained"
         color="secondary"
         onClick={() => onDelete()}
+        className={matches ? classes.modalText : classes.modalText1}
       >
         Delete
       </Button>
@@ -170,22 +192,22 @@ export default function MenuComponent({slug}) {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-      <Link href={`/${slug}/update`}>
+          <Link href={`/${slug}/update`}>
         <StyledMenuItem>
           <ListItemIcon>
             <EditIcon fontSize="small" />
           </ListItemIcon>
           <ListItemText primary="EDIT" />
         </StyledMenuItem>
-      </Link>
-      <Button onClick={handleOpenModal}>
+        </Link>
+        <Button onClick={handleOpenModal}>
         <StyledMenuItem >
           <ListItemIcon>
             <DeleteIcon fontSize="small" />
           </ListItemIcon>
           <ListItemText primary="Delete" />
         </StyledMenuItem>
-      </Button>
+        </Button>
 
         <Modal
           open={open}
@@ -200,5 +222,3 @@ export default function MenuComponent({slug}) {
     </div>
   );
 }
-
-

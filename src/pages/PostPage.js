@@ -202,33 +202,30 @@ const PostPage = () => {
                 helperText = {formik.touched.image && formik.errors.image}
               />
 
-            {/* {
-                matches
-                ? */}
-                <div className="App" style={{  marginTop:20,width: matches ? "80.5%" : "100%" }}>
+            
             
                     
-                  <CssTextField
-                    className={classes.margin}
-                    style={{ width: matches ? "80.5%" : "100%" }}
-                    multiline
-                    rows={8}
-                    name="content"
-                    variant="outlined"
-                    margin="normal"
-                    autoFocus
-                    required
-                    fullWidth
-                    id="content"
-                    label="Content"
-                    value={formik.values.content}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    {...formik.getFieldProps('content')}
-                    error={formik.touched.content && formik.errors.content}
-                    helperText = {formik.touched.content && formik.errors.content}
-                  />
-                </div>
+              <CssTextField
+                className={classes.margin}
+                style={{ width: matches ? "80.5%" : "100%" }}
+                multiline
+                rows={8}
+                name="content"
+                variant="outlined"
+                margin="normal"
+                autoFocus
+                required
+                fullWidth
+                id="content"
+                label="Content"
+                value={formik.values.content}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                {...formik.getFieldProps('content')}
+                error={formik.touched.content && formik.errors.content}
+                helperText = {formik.touched.content && formik.errors.content}
+              />
+                
                 
             
               <FormControl variant="outlined" className={classes.formControl}>
