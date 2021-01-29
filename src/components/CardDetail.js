@@ -23,6 +23,7 @@ import TextField from '@material-ui/core/TextField';
 
 import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
+import Link from '@material-ui/core/Link';
   
   
 
@@ -69,6 +70,9 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     backgroundColor: red[500],
   },
+  privateButton:{
+    marginLeft:"20%"
+  }
 }));
 
 
@@ -123,6 +127,7 @@ export default function CardDetail({post}) {
           <ChatBubbleOutlineIcon />
           </Badge>
         </IconButton>
+        
         <IconButton
           className={clsx(classes.expand, {
               [classes.expandOpen]: expanded,

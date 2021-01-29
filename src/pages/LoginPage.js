@@ -147,8 +147,8 @@ export default function SignIn() {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             {...formik.getFieldProps('password')}
-            error={formik.touched.username && formik.errors.password}
-            helperText = {formik.touched.username && formik.errors.password}
+            error={formik.touched.password && formik.errors.password}
+            helperText = {formik.touched.password && formik.errors.password}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}

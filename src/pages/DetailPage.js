@@ -6,6 +6,7 @@ import CardDetail from "../components/CardDetail";
 import Paper from '@material-ui/core/Paper';
 import { useParams } from "react-router-dom";
 import axios from "axios"
+import MenuComponent from "../components/MenuComponent"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,7 +38,7 @@ const DetailPage = () => {
     <div className={classes.root}>
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          
+        {localStorage.getItem('currentUser') === postDetail?.author ? <MenuComponent slug={slug}/> : null}
           <CardDetail post={postDetail}/>
           
         </Grid>

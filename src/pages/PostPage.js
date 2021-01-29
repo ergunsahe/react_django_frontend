@@ -13,6 +13,13 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import CKEditor from 'ckeditor4-react';
+import * as Yup from "yup";
+import {useFormik} from "formik"
+import { useHistory } from "react-router-dom";
+import { fetchData } from "../helper/FetchData";
+import { postData } from "../helper/PostData";
+import { toast, ToastContainer } from "react-toastify";
+
   
   const CssTextField = withStyles({
     root: {
@@ -110,21 +117,42 @@ import CKEditor from 'ckeditor4-react';
       },
   }));
   
-  const PostPage = () => {
-    const classes = useStyles();
-    const [state, setState] = React.useState({
-    status: '',
-    name: 'hai',
-  });
+const PostPage = () => {
+  const classes = useStyles();
+  const history = useHistory()
+  
 
-   const handleChange = (event) => {
-      const name = event.target.name;
-      setState({
-         ...state,
-         [name]: event.target.value,
+  const validationSchema = Yup.object().shape({
+    content: Yup.string().required("Content is required!!"),
+    // image: Yup.string("You can add an url of an image with image extension"),
+    title: Yup.string().required("Title is required").max(100, "Title is too long, 100 chars "),
+    status: Yup.string()
+  })
+  
+  const initialValues = {
+    content:'',
+    image:'',
+    title:'',
+    status:''
+  }
+  
+  const onSubmit = (values) =>{
+    console.log(values)
+    postData("https://rd-restful-blog.herokuapp.com/create/", values)
+    .then((data) => { 
+
+        history.push("/");
+      })
+      .catch((err) => {
+        toast.error(err.message || " an error occured");      
       });
-  };
-    
+    }
+
+    const formik = useFormik({
+      validationSchema,
+      initialValues,
+      onSubmit
+    })
     const matches = useMediaQuery("(min-width:750px)");
   
     return (
@@ -137,59 +165,79 @@ import CKEditor from 'ckeditor4-react';
             <Typography component="h1" variant="h5">
               Create New Post
             </Typography>
-            <form className={matches ? classes.form : classes.form2}>
+            <form className={matches ? classes.form : classes.form2}  noValidate onSubmit={formik.handleSubmit}>
               <CssTextField
                 className={classes.margin}
                 style={{ width: matches ? "80.5%" : "100%" }}
-                variant="outlined"
-                id="title"
                 name="title"
+                variant="outlined"
+                margin="normal"
+                autoFocus
+                required
+                fullWidth
+                id="title"
                 label="Title"
+                value={formik.values.title}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                {...formik.getFieldProps('title')}
+                error={formik.touched.title && formik.errors.title}
+                helperText = {formik.touched.title && formik.errors.title}
               />
               <CssTextField
                 className={classes.margin}
                 style={{ width: matches ? "80.5%" : "100%" }}
-                id="image"
                 name="image"
-                label="Image URL"
                 variant="outlined"
+                margin="normal"
+                autoFocus
+                fullWidth
+                id="image"
+                label="Image URL"
+                value={formik.values.image}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                {...formik.getFieldProps('image')}
+                error={formik.touched.image && formik.errors.image}
+                helperText = {formik.touched.image && formik.errors.image}
               />
 
-            {
+            {/* {
                 matches
-                ?
+                ? */}
                 <div className="App" style={{  marginTop:20,width: matches ? "80.5%" : "100%" }}>
             
-                    <CKEditor
-                        // data="<p>Hello from CKEditor 4!</p>"
-                        className={classes.margin}
-                        variant="outlined"
-                        multiline
-                        rows={8}
-                        id="content"
-                        name="content"
-                        label="Content"
-                        
-                    />
+                    
+                  <CssTextField
+                    className={classes.margin}
+                    style={{ width: matches ? "80.5%" : "100%" }}
+                    multiline
+                    rows={8}
+                    name="content"
+                    variant="outlined"
+                    margin="normal"
+                    autoFocus
+                    required
+                    fullWidth
+                    id="content"
+                    label="Content"
+                    value={formik.values.content}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    {...formik.getFieldProps('content')}
+                    error={formik.touched.content && formik.errors.content}
+                    helperText = {formik.touched.content && formik.errors.content}
+                  />
                 </div>
-                :
-              <CssTextField
-                className={classes.margin}
-                style={{ width: matches ? "80.5%" : "100%" }}
-                variant="outlined"
-                multiline
-                rows={8}
-                id="content"
-                name="content"
-                label="Content"
-              />
-            }
+                
+            
               <FormControl variant="outlined" className={classes.formControl}>
                 <InputLabel htmlFor="outlined-age-native-simple">Status</InputLabel>
                 <Select
+                name='status'
                 native
-                value={state.status}
-                onChange={handleChange}
+                value={formik.values.status}
+                onChange={formik.handleChange}
                 label="Status"
                 inputProps={{
                     name: 'status',
@@ -215,6 +263,7 @@ import CKEditor from 'ckeditor4-react';
               >
                 Create
               </Button>
+              <ToastContainer/>
             </form>
           </div>
         </Grid>
@@ -222,3 +271,26 @@ import CKEditor from 'ckeditor4-react';
     );
   };
   export default PostPage;
+
+  // <CKEditor
+  //                       // data="<p>Hello from CKEditor 4!</p>"
+  //                       className={classes.margin}
+  //                       variant="outlined"
+  //                       editor={ ClassicEditor }
+  //                       multiline
+  //                       rows={8}
+  //                       name="content"
+  //                       margin="normal"
+  //                       autoFocus
+  //                       required
+  //                       fullWidth
+  //                       id="content"
+  //                       label="Content"
+  //                       value={formik.values.content}
+  //                       onChange={formik.handleChange}
+  //                       onBlur={formik.handleBlur}
+  //                       {...formik.getFieldProps('content')}
+  //                       error={formik.touched.content && formik.errors.content}
+                        
+                        
+  //                   />

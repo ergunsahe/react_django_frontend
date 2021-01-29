@@ -10,6 +10,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import LocalMallIcon from "@material-ui/icons/LocalMall";
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import CKEditor from 'ckeditor4-react';
+import * as Yup from "yup";
+import {useFormik} from "formik"
+import { useHistory } from "react-router-dom";
+import { fetchData } from "../helper/FetchData";
+import { postData } from "../helper/PostData";
+import { toast, ToastContainer } from "react-toastify";
 
 const CssTextField = withStyles({
   root: {
@@ -85,6 +91,37 @@ const ProfilePage = () => {
   
   const classes = useStyles();
   const matches = useMediaQuery('(min-width:750px)');
+  const validationSchema = Yup.object().shape({
+    content: Yup.string().required("Content is required!!"),
+    // image: Yup.string("You can add an url of an image with image extension"),
+    title: Yup.string().required("Title is required").max(100, "Title is too long, 100 chars "),
+    status: Yup.string()
+  })
+  
+  const initialValues = {
+    content:'',
+    image:'',
+    title:'',
+    status:''
+  }
+  
+  const onSubmit = (values) =>{
+    console.log(values)
+    postData("https://rd-restful-blog.herokuapp.com/create/", values)
+    .then((data) => { 
+
+        history.push("/");
+      })
+      .catch((err) => {
+        toast.error(err.message || " an error occured");      
+      });
+    }
+
+    const formik = useFormik({
+      validationSchema,
+      initialValues,
+      onSubmit
+    })
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -140,35 +177,18 @@ const ProfilePage = () => {
               name="address"
               label="Address"
               />
-            {
-                matches
-                ?
-                <div className="App" style={{  marginTop:20,width: matches ? "80.5%" : "100%" }}>
             
-                    <CKEditor
-                        // data="<p>Hello from CKEditor 4!</p>"
-                        className={classes.margin}
-                        variant="outlined"
-                        multiline
-                        rows={8}
-                        id="content"
-                        name="content"
-                        label="Content"
-                        
-                    />
-                </div>
-                :
-                <CssTextField
-                  className={classes.bio}
-                  style={{width : matches ? "80.7%" : "100%" }}
-                  variant="outlined"
-                  multiline
-                  rows={8}
-                  id="bio"
-                  name="bio"
-                  label="Biografy"
-                  />
-            }
+            <CssTextField
+              className={classes.bio}
+              style={{width : matches ? "80.7%" : "100%" }}
+              variant="outlined"
+              multiline
+              rows={8}
+              id="bio"
+              name="bio"
+              label="Biografy"
+            />
+            
 
             <Button
               color="primary"
@@ -189,10 +209,19 @@ const ProfilePage = () => {
 };
 export default ProfilePage;
 
-// user = models.OneToOneField(User, on_delete=models.CASCADE)
-//     first_name = models.CharField(max_length=200, blank=True)
-//     last_name = models.CharField(max_length=200, blank=True)
-//     country = models.CharField(max_length=200, blank=True)
-//     address = models.CharField(max_length=200, blank=True)
-//     phone = models.CharField(max_length=200, blank=True)
-//     bio = models.TextField(blank=True)
+
+
+{/* <div className="App" style={{  marginTop:20,width: matches ? "80.5%" : "100%" }}>
+            
+            <CKEditor
+                // data="<p>Hello from CKEditor 4!</p>"
+                className={classes.margin}
+                variant="outlined"
+                multiline
+                rows={8}
+                id="content"
+                name="content"
+                label="Content"
+                
+            />
+        </div> */}

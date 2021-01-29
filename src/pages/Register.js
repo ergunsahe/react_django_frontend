@@ -135,8 +135,8 @@ export default function SignUp() {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   {...formik.getFieldProps('email')}
-                  error={formik.touched.username && formik.errors.email}
-                  helperText = {formik.touched.username && formik.errors.email}
+                  error={formik.touched.email && formik.errors.email}
+                  helperText = {formik.touched.email && formik.errors.email}
                  
                 />
                 <TextField
@@ -153,8 +153,8 @@ export default function SignUp() {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   {...formik.getFieldProps('password')}
-                  error={formik.touched.username && formik.errors.password}
-                  helperText = {formik.touched.username && formik.errors.password}
+                  error={formik.touched.password && formik.errors.password}
+                  helperText = {formik.touched.password && formik.errors.password}
                  
                 />
                 <TextField
@@ -171,8 +171,8 @@ export default function SignUp() {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   {...formik.getFieldProps('password2')}
-                  error={formik.touched.username && formik.errors.password2}
-                  helperText = {formik.touched.username && formik.errors.password2}
+                  error={formik.touched.password2 && formik.errors.password2}
+                  helperText = {formik.touched.password2 && formik.errors.password2}
                  
     
                   
