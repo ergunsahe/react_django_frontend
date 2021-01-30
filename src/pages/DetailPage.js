@@ -39,7 +39,7 @@ const DetailPage = () => {
       <Grid container spacing={3}>
         <Grid item xs={12}>
         {localStorage.getItem('currentUser') === postDetail?.author ? <MenuComponent slug={slug}/> : null}
-          <CardDetail post={postDetail}/>
+          <CardDetail post={postDetail} fetchData={fetchData}/>
           
         </Grid>
       </Grid>

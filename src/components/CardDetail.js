@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
@@ -18,12 +18,18 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Collapse from '@material-ui/core/Collapse';
 import Badge from '@material-ui/core/Badge';
 import moment from 'moment';
+import { postData, postDataLike} from "../helper/PostData"
+import { toast, ToastContainer } from "react-toastify";
+import { useHistory } from "react-router-dom";
 
 import TextField from '@material-ui/core/TextField';
 
 import Button from '@material-ui/core/Button';
-import Icon from '@material-ui/core/Icon';
+import SendIcon from "@material-ui/icons/Send";
 import Link from '@material-ui/core/Link';
+
+import { useFormik } from "formik";
+import * as Yup from "yup";
   
   
 
@@ -78,15 +84,72 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-export default function CardDetail({post}) {
+export default function CardDetail({post, fetchData}) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
+  const [isLiked, setLiked] = useState(false)
+  const history = useHistory()
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
   const matches = useMediaQuery('(min-width:750px)');
+
+  const validationSchema = Yup.object().shape({
+    content: Yup.string()
+      .max(100, "this comment ist too long")
+      .min(1,"You must write something")
+  });
+  
+  const initialValues = {
+    content: "",
+  };
+
+  
+
+  // const onComment=(e) =>{
+  //   let value= e.target.value
+  //   setComment(value)
+  //   console.log(comment)
+  // }
+
+  const onSubmit = (values) =>{
+    postData(`https://rd-restful-blog.herokuapp.com/${post.slug}/comment/`, values)
+    .then((data) => { 
+      fetchData()
+      history.push(`/${post.slug}/detail/`);
+      formik.values.content = ''
+    })
+    .catch((err) => {
+      toast.error(err.message || " an error occured");      
+    });
+  }
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit,
+  });
+
+  const like= () =>{
+    console.log(post.slug)
+    postDataLike(`https://rd-restful-blog.herokuapp.com/${post.slug}/like/`)
+    .then((data) => { 
+      fetchData()
+      console.log(data.request.status)
+      history.push(`/${post.slug}/detail/`);
+      if (data.status===201){
+        setLiked(true)
+      } else{
+        setLiked(false)
+      }    
+    })
+    .catch((err) => {
+      toast.error(err.message || " an error occured");      
+    });
+  }
+ 
 
   return (
     <Card className={matches ? classes.root : classes.root2}>
@@ -114,7 +177,7 @@ export default function CardDetail({post}) {
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
           <Badge badgeContent={post?.like_count} color="secondary">
-            <FavoriteIcon />
+            <FavoriteIcon onClick={like} color={isLiked ? "secondary": ""}/>
           </Badge>
         </IconButton>
         <IconButton aria-label="Visibility">
@@ -142,27 +205,38 @@ export default function CardDetail({post}) {
           <Typography style={{color:"#187965"}}>See Comments</Typography>
       </CardActions>
       
-      <form className={classes.commentForm}>
+      <form className={classes.commentForm} onSubmit={formik.handleSubmit}>
         <TextField
+            name='content'
             id="filled-full-width"
             style={{display:"inline-block", float:"right"}}
             label="Comments"
             placeholder="leave your Comment"          
             fullWidth
+            // onChange={onComment}
             margin="normal"
             InputLabelProps={{
                 shrink: true,
             }}
             variant="filled"
+          onChange={formik.content}
+          value={formik.values.content}
+          onBlur={formik.handleBlur}
+          {...formik.getFieldProps("content")}
+          error={formik.touched.content && formik.errors.content}
+          helperText={formik.touched.content && formik.errors.content}
             />
             
         <Button
+            type='submit'
             style={{fontWeight:"bold"}}
             variant="contained"
             color="secondary"
             className={classes.button}
-            endIcon={<Icon>send</Icon>}
+            endIcon={<SendIcon>send</SendIcon>}
+            // onClick={() =>{onSubmit()}}
         >Send</Button>
+        <ToastContainer/>
       </form>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>

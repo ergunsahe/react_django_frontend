@@ -28,6 +28,7 @@ function AppRouter(params) {
                     <>
                         <Route exact path="/register" component={SignUp} />
                         <Route exact path="/login" component={SignIn} />
+                        <Route exact path="/:slug/detail" component={DetailPage} />
                     </>
                     :
                     <> 
