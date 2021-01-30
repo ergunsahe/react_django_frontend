@@ -16,10 +16,15 @@ function AuthContextProvider(props) {
     return res?.data
   }
 
+  const fetchDataLogin = async (path, data) => {
+    const res = await axios.post(path, data)
+    return res?.data
+  }
+
 
   
   return (
-    <AuthContext.Provider value={{ postList, setPostList, fetchDataList, setCurrentUser, currentUser }}>
+    <AuthContext.Provider value={{ postList, setPostList, fetchDataList, setCurrentUser, currentUser, fetchDataLogin }}>
       {props.children}
     </AuthContext.Provider>
   );

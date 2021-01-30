@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,9 +12,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import axios from 'axios'
-import { fetchData } from "../helper/FetchData";
-import { useHistory, Redirect } from "react-router-dom";
+// import { fetchData } from "../helper/FetchData";
+import { useHistory } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { toast, ToastContainer } from "react-toastify";
 import {useFormik} from "formik"
@@ -57,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function SignIn() {
-  const {setCurrentUser} = useContext(AuthContext)
+  const {setCurrentUser, fetchDataLogin} = useContext(AuthContext)
   let history = useHistory();
   const classes = useStyles();
   
@@ -76,11 +75,10 @@ export default function SignIn() {
   }
   
   const onSubmit = (values) =>{
-    fetchData("https://rd-restful-blog.herokuapp.com/auth/login/", values)
+    fetchDataLogin("https://rd-restful-blog.herokuapp.com/auth/login/", values)
     .then((data) => {
       if (data.key){
         setCurrentUser(values.username)
-        
         localStorage.setItem("currentUser", values.username)
         localStorage.setItem("isLoggedIn", true)
         localStorage.setItem("Token", data.key)
@@ -100,7 +98,9 @@ export default function SignIn() {
     })
   
    
-
+    useEffect(() => {
+      
+    }, [setCurrentUser])
 
 
   return (
