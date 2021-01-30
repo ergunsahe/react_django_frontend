@@ -132,6 +132,7 @@ export default function NavBar() {
           <Typography variant="h6" className={classes.title}>
           Blog
           </Typography>
+          <Typography>{currentUser}</Typography>
 
           <div className={classes.search}>
             <div className={classes.searchIcon}>

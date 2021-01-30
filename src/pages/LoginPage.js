@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -56,7 +56,8 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function SignIn() {
-  const {setCurrentUser, fetchDataLogin} = useContext(AuthContext)
+  const [isLogged, setLogged]= useState(false)
+  const {setCurrentUser, fetchDataLogin, currentUser} = useContext(AuthContext)
   let history = useHistory();
   const classes = useStyles();
   
@@ -75,20 +76,28 @@ export default function SignIn() {
   }
   
   const onSubmit = (values) =>{
+    const user=values.username
     fetchDataLogin("https://rd-restful-blog.herokuapp.com/auth/login/", values)
     .then((data) => {
-      if (data.key){
-        setCurrentUser(values.username)
+        
         localStorage.setItem("currentUser", values.username)
         localStorage.setItem("isLoggedIn", true)
         localStorage.setItem("Token", data.key)
+        
         history.push("/");
           
-        }
+        
       })
       .catch((err) => {
         toast.error("Please check your username and password");      
       });
+      setLogged(true)
+      console.log(isLogged)
+      if (isLogged){
+        setCurrentUser(user)
+        console.log(currentUser)
+        console.log(isLogged)
+      }
     }
 
     const formik = useFormik({

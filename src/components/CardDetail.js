@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
@@ -26,10 +26,11 @@ import TextField from '@material-ui/core/TextField';
 
 import Button from '@material-ui/core/Button';
 import SendIcon from "@material-ui/icons/Send";
-import Link from '@material-ui/core/Link';
-
 import { useFormik } from "formik";
 import * as Yup from "yup";
+
+import {AuthContext} from "../context/AuthContext"
+
   
   
 
@@ -89,6 +90,7 @@ export default function CardDetail({post, fetchData}) {
   const [expanded, setExpanded] = React.useState(false);
   const [isLiked, setLiked] = useState(false)
   const history = useHistory()
+  const {currentUser}=useContext(AuthContext)
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -108,11 +110,7 @@ export default function CardDetail({post, fetchData}) {
 
   
 
-  // const onComment=(e) =>{
-  //   let value= e.target.value
-  //   setComment(value)
-  //   console.log(comment)
-  // }
+ 
 
   const onSubmit = (values) =>{
     postData(`https://rd-restful-blog.herokuapp.com/${post.slug}/comment/`, values)
@@ -163,12 +161,14 @@ export default function CardDetail({post, fetchData}) {
         title= {post?.title}
         subheader={moment(post?.publish_date).startOf('hour').fromNow()  }
       />
+      <Typography>{currentUser}</Typography>
       <Typography style={{fontSize:18, margin:20, color:'crimson'}}><i>created by {post?.author}</i> </Typography>
       <CardMedia
         className={classes.media}
         image={post?.image}
         title="Card Image"
       />
+      
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
           {post?.content}
