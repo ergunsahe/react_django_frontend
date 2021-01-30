@@ -21,13 +21,13 @@ export const fetchDataDetail = async (slug) => {
     const res = await axios.get(`https://rd-restful-blog.herokuapp.com/${slug}/detail`)
     return res?.data
   }
-  
-  
-
-  
-  
 
 }
 
+
+// export const fetchDataList = async () => {
+//   const res = await axios.get('https://rd-restful-blog.herokuapp.com/list/')
+//   return res?.data
+// }
 
 

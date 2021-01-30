@@ -85,7 +85,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function NavBar() {
-  const { setLoggedIn, currentUser, setCurrentUser } = useContext(AuthContext);
+  const {currentUser, setCurrentUser } = useContext(AuthContext);
   let history = useHistory();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -106,7 +106,7 @@ export default function NavBar() {
   const postLogout = async () =>{
     await axios.post("https://rd-restful-blog.herokuapp.com/auth/logout/")
     setCurrentUser(null)
-    setLoggedIn(false)
+    
     localStorage.setItem("Token", "")
     localStorage.setItem("currentUser", "")
     localStorage.setItem("isLoggedIn", false)

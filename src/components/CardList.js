@@ -1,31 +1,39 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useContext} from "react";
 import Grid from "@material-ui/core/Grid";
 import BlogCard from '../components/BlogCard'
 import axios from "axios"
+import {AuthContext} from "../context/AuthContext"
 
 
 
 const CardList = () => {
-  const [posts, setPosts]= useState([])
+  // const [posts, setPosts]= useState([])
+  const {postList, setPostList, fetchDataList}=useContext(AuthContext)
 
-  const fetchData = async () => {
-    const res = await axios.get('https://rd-restful-blog.herokuapp.com/list/')
-    setPosts(res.data)
+  fetchDataList()
+  .then((data) => {
+    setPostList(data)
+    })
+    .catch((err) => {
+      console.log(err)   
+    });
+    
+    // setPosts(res.data)
     
     // console.log(res.data)
 
-  }
+  
 
   useEffect(() => {
-    fetchData()
-  }, [])
+    fetchDataList()
+  }, [postList])
  
   return (
 
 
    
     <Grid container spacing={5}>
-       {posts?.map((post, index) =>{
+       {postList?.map((post, index) =>{
          return(
           <Grid key={index} item xs={12} sm={4}>
             <BlogCard post={post}/>

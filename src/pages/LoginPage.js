@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function SignIn() {
-  const {setLoggedIn, setCurrentUser} = useContext(AuthContext)
+  const {setCurrentUser} = useContext(AuthContext)
   let history = useHistory();
   const classes = useStyles();
   
@@ -80,7 +80,7 @@ export default function SignIn() {
     .then((data) => {
       if (data.key){
         setCurrentUser(values.username)
-        setLoggedIn(true)
+        
         localStorage.setItem("currentUser", values.username)
         localStorage.setItem("isLoggedIn", true)
         localStorage.setItem("Token", data.key)
