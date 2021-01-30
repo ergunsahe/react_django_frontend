@@ -8,14 +8,26 @@ export const fetchData = async (path, data) => {
  
   return response?.data;
 };
-export const fetchDataDetail = async (path, data) => {
-  // const Token = localStorage.getItem("Token");
+export const fetchDataDetail = async (slug) => {
+   const Token= localStorage.getItem("Token")
+  if (Token){
+      const res = await axios.get(`https://rd-restful-blog.herokuapp.com/${slug}/detail`,{
+      headers: {
+        "Authorization": `Token ${Token}`,
+      }
+    })
+    return res?.data
+  }else{
+    const res = await axios.get(`https://rd-restful-blog.herokuapp.com/${slug}/detail`)
+    return res?.data
+  }
   
-  const response = await axios.get(path, data)
-  console.log(response)
- 
-  return response?.data;
-};
+  
+
+  
+  
+
+}
 
 
 
