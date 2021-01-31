@@ -296,15 +296,4 @@ const UpdatePost = () => {
   export default UpdatePost;
 
 
-  // <div className="App" style={{  marginTop:20,width: matches ? "80.5%" : "100%" }}></div>
-//   <CKEditor
-//   // data="<p>Hello from CKEditor 4!</p>"
-//   className={classes.margin}
-//   variant="outlined"
-//   multiline
-//   rows={8}
-//   id="content"
-//   name="content"
-//   label="Content"
   
-// />

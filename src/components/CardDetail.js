@@ -90,7 +90,7 @@ export default function CardDetail({post, fetchData}) {
   const [expanded, setExpanded] = React.useState(false);
   const [isLiked, setLiked] = useState(false)
   const history = useHistory()
-  const {currentUser}=useContext(AuthContext)
+  const {currentUser, fetchDataList}=useContext(AuthContext)
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -147,8 +147,10 @@ export default function CardDetail({post, fetchData}) {
       toast.error(err.message || " an error occured");      
     });
   }
- 
-
+  // useEffect(() =>{
+    
+  //   fetchDataList()
+  // }, [])
   return (
     <Card className={matches ? classes.root : classes.root2}>
       <CardHeader

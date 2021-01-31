@@ -12,7 +12,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-// import { fetchData } from "../helper/FetchData";
+import { fetchData } from "../helper/FetchData";
 import { useHistory } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { toast, ToastContainer } from "react-toastify";
@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
   const [isLogged, setLogged]= useState(false)
-  const {setCurrentUser, fetchDataLogin, currentUser} = useContext(AuthContext)
+  const {setCurrentUser, currentUser, } = useContext(AuthContext)
   let history = useHistory();
   const classes = useStyles();
   
@@ -77,7 +77,7 @@ export default function SignIn() {
   
   const onSubmit = (values) =>{
     const user=values.username
-    fetchDataLogin("https://rd-restful-blog.herokuapp.com/auth/login/", values)
+    fetchData("https://rd-restful-blog.herokuapp.com/auth/login/", values)
     .then((data) => {
         
         localStorage.setItem("currentUser", values.username)
@@ -109,7 +109,7 @@ export default function SignIn() {
    
     useEffect(() => {
       
-    }, [setCurrentUser])
+    }, [currentUser])
 
 
   return (

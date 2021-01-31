@@ -1,4 +1,4 @@
-import React, {useContext, useEffect,} from 'react';
+import React, {useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -14,10 +14,10 @@ import Avatar from '@material-ui/core/Avatar';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import logo from '../assets/dj.png'
 import Link from '@material-ui/core/Link';
-import { useHistory, Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import axios from 'axios'
-import { Paper } from '@material-ui/core';
+
 
 
 

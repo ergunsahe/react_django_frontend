@@ -12,11 +12,11 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import CKEditor from 'ckeditor4-react';
+
 import * as Yup from "yup";
 import {useFormik} from "formik"
 import { useHistory } from "react-router-dom";
-import { fetchData } from "../helper/FetchData";
+
 import { postData } from "../helper/PostData";
 import { toast, ToastContainer } from "react-toastify";
 
@@ -269,25 +269,4 @@ const PostPage = () => {
   };
   export default PostPage;
 
-  // <CKEditor
-  //                       // data="<p>Hello from CKEditor 4!</p>"
-  //                       className={classes.margin}
-  //                       variant="outlined"
-  //                       editor={ ClassicEditor }
-  //                       multiline
-  //                       rows={8}
-  //                       name="content"
-  //                       margin="normal"
-  //                       autoFocus
-  //                       required
-  //                       fullWidth
-  //                       id="content"
-  //                       label="Content"
-  //                       value={formik.values.content}
-  //                       onChange={formik.handleChange}
-  //                       onBlur={formik.handleBlur}
-  //                       {...formik.getFieldProps('content')}
-  //                       error={formik.touched.content && formik.errors.content}
-                        
-                        
-  //                   />
+  

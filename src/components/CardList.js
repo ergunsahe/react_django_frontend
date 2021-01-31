@@ -1,32 +1,19 @@
-import React, {useEffect, useState, useContext} from "react";
+import React, {useEffect, useContext} from "react";
 import Grid from "@material-ui/core/Grid";
 import BlogCard from '../components/BlogCard'
-import axios from "axios"
 import {AuthContext} from "../context/AuthContext"
 
 
 
 const CardList = () => {
   // const [posts, setPosts]= useState([])
-  const {postList, setPostList, fetchDataList}=useContext(AuthContext)
+  const {postList,  fetchDataList}= useContext(AuthContext)
 
-  fetchDataList()
-  .then((data) => {
-    setPostList(data)
-    })
-    .catch((err) => {
-      console.log(err)   
-    });
-    
-    // setPosts(res.data)
-    
-    // console.log(res.data)
-
-  
+  console.log(postList)
 
   useEffect(() => {
     fetchDataList()
-  }, [postList])
+  }, [])
  
   return (
 

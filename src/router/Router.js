@@ -13,7 +13,7 @@ import { AuthContext } from "../context/AuthContext";
 
 
 function AppRouter(params) {
-    const {currentUser, isLoggedIn} = useContext(AuthContext)
+    // const {currentUser, isLoggedIn} = useContext(AuthContext)
     
     
     return (
