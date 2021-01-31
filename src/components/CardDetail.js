@@ -147,10 +147,10 @@ export default function CardDetail({post, fetchData}) {
       toast.error(err.message || " an error occured");      
     });
   }
-  // useEffect(() =>{
+  useEffect(() =>{
     
-  //   fetchDataList()
-  // }, [])
+    fetchDataList()
+  }, [like, onSubmit])
   return (
     <Card className={matches ? classes.root : classes.root2}>
       <CardHeader
