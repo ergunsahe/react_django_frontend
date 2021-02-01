@@ -85,7 +85,8 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function NavBar({isLogged}) {
-  const {postList, setPostList, setLogged } = useContext(AuthContext);
+  const [navRender, setRender] = React.useState(false);
+  const {setLogged } = useContext(AuthContext);
   let history = useHistory();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -106,20 +107,20 @@ export default function NavBar({isLogged}) {
   const postLogout = async () =>{
     handleClose()
     await axios.post("https://rd-restful-blog.herokuapp.com/auth/logout/")
-    setPostList(false)  
     setLogged(false)
     localStorage.setItem("Token", "")
     localStorage.setItem("currentUser", "")
     localStorage.setItem("isLoggedIn", false)
+    setRender(true)
     history.push('/')
     
     
     };
-    console.log(isLogged)
+   
 
-  // useEffect(() =>{
-    
-  // }, [localStorage.getItem('Token')])
+  useEffect(() =>{
+    localStorage.getItem("Token")
+  }, [navRender])
   
 
   return (
@@ -198,7 +199,7 @@ export default function NavBar({isLogged}) {
                         <MenuItem onClick={handleClose}>Profile</MenuItem>
                       </Link>
                                   
-                      <Button color="secondary" onClick={() => postLogout()}>Logout</Button>
+                      <Button color="secondary" style={{marginLeft:7, fontWeight:'bold'}} onClick={() => postLogout()}>Logout</Button>
                         
                       
                   </Menu>

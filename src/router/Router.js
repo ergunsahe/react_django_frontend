@@ -13,11 +13,11 @@ import { AuthContext } from "../context/AuthContext";
 
 
 function AppRouter(params) {
-    const {postList, isLogged} = useContext(AuthContext)
+    const {isLogged} = useContext(AuthContext)
 
     useEffect(() =>{
         localStorage.getItem("Token")
-    }, [postList, isLogged])
+    }, [isLogged])
     
     
     return (
@@ -42,18 +42,7 @@ function AppRouter(params) {
                         <Route exact path="/:slug/update" component={UpdatePost} />
                     </>
                 }
-                {/* <Route exact path="/forgot-password" component={ForgotPassword} /> */}
-                {/* <Route
-                    exact
-                    path="/user/:id"
-                    component={currentUser ? UserDetail : Signin}
-                />
-                <Route
-                    exact
-                    path="/user/:id/post"
-                    component={currentUser ? UserPost : Signin}
-                />
-                <Route path="/" component={Main} /> */}
+                
             </Switch>
         </Router>
     )    

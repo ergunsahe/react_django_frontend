@@ -78,8 +78,7 @@ const useStyles = makeStyles((theme) => ({
     width : "80.5%",   
   },
   bio : {
-    margin : 2,    
-    // width : "80.5%",   
+    margin : 2,     
     marginTop : 13,  
   },
   button : {
@@ -104,7 +103,7 @@ const ProfilePage = () => {
         }
     })
      
-    console.log(res?.data)
+    
     formik.values.first_name=res?.data.first_name
     formik.values.last_name=res?.data.last_name
     formik.values.country=res?.data.country
@@ -145,7 +144,7 @@ const ProfilePage = () => {
   }
   
   const onSubmit = (values) =>{
-    console.log(values)
+    
     putData("https://rd-restful-blog.herokuapp.com/users/profile/", values)
     .then((data) => { 
 
@@ -294,17 +293,3 @@ export default ProfilePage;
 
 
 
-{/* <div className="App" style={{  marginTop:20,width: matches ? "80.5%" : "100%" }}>
-            
-            <CKEditor
-                // data="<p>Hello from CKEditor 4!</p>"
-                className={classes.margin}
-                variant="outlined"
-                multiline
-                rows={8}
-                id="content"
-                name="content"
-                label="Content"
-                
-            />
-        </div> */}

@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -56,8 +56,8 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function SignIn() {
-  // const []= useState(false)
-  const {postList, setPostList, isLogged, setLogged} = useContext(AuthContext)
+  
+  const {setLogged} = useContext(AuthContext)
   let history = useHistory();
   const classes = useStyles();
   
@@ -79,8 +79,7 @@ export default function SignIn() {
     
     fetchData(values)
     .then((data) => {
-      console.log("hello from login")
-        setPostList(true)
+      
         setLogged(true)
         localStorage.setItem("currentUser", values.username)
         localStorage.setItem("isLoggedIn", true)
@@ -103,9 +102,7 @@ export default function SignIn() {
     })
   
    
-    // useEffect(() => {
-    //   fetchData()
-    // }, [isLogged, postList])
+   
 
 
   return (

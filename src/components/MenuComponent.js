@@ -117,7 +117,7 @@ export default function MenuComponent({slug}) {
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
   const matches = useMediaQuery('(min-width:750px)');
-//   const { slug } = useParams();
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -141,7 +141,7 @@ export default function MenuComponent({slug}) {
         "Authorization": `Token ${Token}`,
       }
     })
-    console.log(res)
+    
     history.push("/")
 
   }

@@ -9,17 +9,19 @@ const PaginatPage = ({postsPerPage, totalPosts, paging}) => {
     const [page, setPage] = React.useState(1);
 
     const handleChange = (event, value) => {
+      
       setPage(value);
-        
+      
     }
 
     const pageNumbers = Math.ceil(totalPosts / postsPerPage)
-    // console.log(pageNumbers)
+ 
 
     const useStyles = makeStyles((theme) => ({
         stylePaginate:{
         
-          marginTop:50
+          marginTop:50,
+          marginBottom:50,
         
           
         }

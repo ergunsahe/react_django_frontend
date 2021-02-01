@@ -55,7 +55,7 @@ import { toast, ToastContainer } from "react-toastify";
       flexDirection: "column",
       alignItems: "center",
       justifyContent: "center",
-      // backgroundColor: "yellow",
+      
     },
     avatar: {
       margin: theme.spacing(1),
@@ -124,7 +124,6 @@ const PostPage = () => {
 
   const validationSchema = Yup.object().shape({
     content: Yup.string().required("Content is required!!"),
-    // image: Yup.string("You can add an url of an image with image extension"),
     title: Yup.string().required("Title is required").max(100, "Title is too long, 100 chars "),
     status: Yup.string()
   })
@@ -137,7 +136,7 @@ const PostPage = () => {
   }
   
   const onSubmit = (values) =>{
-    console.log(values)
+    
     postData("https://rd-restful-blog.herokuapp.com/create/", values)
     .then((data) => { 
 

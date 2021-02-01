@@ -15,7 +15,6 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-// import CKEditor from 'ckeditor4-react';
 import * as Yup from "yup";
 import {useFormik} from "formik"
 import { useHistory } from "react-router-dom";
@@ -61,7 +60,7 @@ import { useParams } from "react-router-dom";
       flexDirection: "column",
       alignItems: "center",
       justifyContent: "center",
-      // backgroundColor: "yellow",
+      
     },
     avatar: {
       margin: theme.spacing(1),
@@ -158,7 +157,7 @@ const UpdatePost = () => {
     
     const onSubmit = (values) => {
       
-      const response = putData(`https://rd-restful-blog.herokuapp.com/${slug}/update/`, values, {
+      putData(`https://rd-restful-blog.herokuapp.com/${slug}/update/`, values, {
       })
       .then((data) => { 
         
@@ -167,7 +166,7 @@ const UpdatePost = () => {
       .catch((err) => {
         toast.error(err.message || " an error occured");      
       });
-      console.log(response)
+      
       
       
     }

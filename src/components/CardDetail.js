@@ -89,6 +89,7 @@ export default function CardDetail({post, fetchData}) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
   const [isLiked, setLiked] = useState(false)
+  const [isComment, setComment] = useState(false)
   const history = useHistory()
   const {currentUser, fetchDataList}=useContext(AuthContext)
 
@@ -117,6 +118,7 @@ export default function CardDetail({post, fetchData}) {
     .then((data) => { 
       fetchData()
       history.push(`/${post.slug}/detail/`);
+      setComment(true)
       formik.values.content = ''
     })
     .catch((err) => {
@@ -131,11 +133,11 @@ export default function CardDetail({post, fetchData}) {
   });
 
   const like= () =>{
-    console.log(post.slug)
+    
     postDataLike(`https://rd-restful-blog.herokuapp.com/${post.slug}/like/`)
     .then((data) => { 
       fetchData()
-      console.log(data.request.status)
+      
       history.push(`/${post.slug}/detail/`);
       if (data.status===201){
         setLiked(true)
@@ -151,6 +153,10 @@ export default function CardDetail({post, fetchData}) {
     fetchData()
     
   }, [])
+  useEffect(() =>{
+    fetchDataList()
+  
+  }, [isLiked, isComment])
   return (
     <Card className={matches ? classes.root : classes.root2}>
       <CardHeader

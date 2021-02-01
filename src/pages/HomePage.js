@@ -1,7 +1,6 @@
 import React, { useEffect, useState , useContext } from "react";
 import Container from "@material-ui/core/Container";
 import CardList from "../components/CardList";
-import axios from "axios";
 import {AuthContext} from "../context/AuthContext";
 import logo from '../assets/load.gif';
 import { makeStyles } from "@material-ui/core/styles";
@@ -10,11 +9,12 @@ import PaginatPage from '../components/Pagination';
 
 
 const HomePage = () => {
-  const [postData, setPostData] = useState([]);
-  const [loading, setLoading] = useState([])
+  // const [postData, setPostData] = useState([]);
+  const {postData, fetchDataList, loading} = useContext(AuthContext);
+  // const [loading, setLoading] = useState([])
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(6);
-  // const {postList, setPostList, fetchDataList}=useContext(AuthContext)
+  
   
   const useStyles = makeStyles((theme) => ({
     styleLogo:{
@@ -27,30 +27,35 @@ const HomePage = () => {
   
   
 
-  async function fetchData() {
-    setLoading(true)
-    try {
-      const results = await axios.get(
-        'https://rd-restful-blog.herokuapp.com/list/'
-      );
-      setPostData(results?.data);
-      setLoading(false)
-    } catch (error) {
-      console.error(error);
-    }
-  }
+  // async function fetchData() {
+  //   setLoading(true)
+  //   try {
+  //     const results = await axios.get(
+  //       'https://rd-restful-blog.herokuapp.com/list/'
+  //     );
+  //     setPostData(results?.data);
+  //     setLoading(false)
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }
 
 
 
   useEffect(() => {
-    fetchData();
+    fetchDataList();
   }, []);
+  
+  useEffect(() => {
+   
+    
+  }, [loading]);
 
   // Get current posts
 
     const indexOfLastPost = currentPage * postsPerPage;
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
-    const currentPosts = postData.slice(indexOfFirstPost, indexOfLastPost)
+    const currentPosts = postData?.slice(indexOfFirstPost, indexOfLastPost)
    
 
     const paginate = (pageNumber) => {
@@ -73,11 +78,14 @@ const HomePage = () => {
     return(
     <Container>
       <PaginatPage postsPerPage={postsPerPage} 
-      totalPosts={postData.length} 
+      totalPosts={postData?.length} 
       paging={paginate} />
 
 
       <CardList posts={currentPosts} />
+      <PaginatPage postsPerPage={postsPerPage} 
+      totalPosts={postData?.length} 
+      paging={paginate} />
     </Container>
     )
     
