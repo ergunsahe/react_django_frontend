@@ -56,8 +56,8 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function SignIn() {
-  const [isLogged, setLogged]= useState(false)
-  const {setCurrentUser, currentUser, } = useContext(AuthContext)
+  // const []= useState(false)
+  const {postList, setPostList, isLogged, setLogged} = useContext(AuthContext)
   let history = useHistory();
   const classes = useStyles();
   
@@ -76,10 +76,12 @@ export default function SignIn() {
   }
   
   const onSubmit = (values) =>{
-    const user=values.username
-    fetchData("https://rd-restful-blog.herokuapp.com/auth/login/", values)
+    
+    fetchData(values)
     .then((data) => {
-        
+      console.log("hello from login")
+        setPostList(true)
+        setLogged(true)
         localStorage.setItem("currentUser", values.username)
         localStorage.setItem("isLoggedIn", true)
         localStorage.setItem("Token", data.key)
@@ -91,13 +93,7 @@ export default function SignIn() {
       .catch((err) => {
         toast.error("Please check your username and password");      
       });
-      setLogged(true)
-      console.log(isLogged)
-      if (isLogged){
-        setCurrentUser(user)
-        console.log(currentUser)
-        console.log(isLogged)
-      }
+      
     }
 
     const formik = useFormik({
@@ -107,9 +103,9 @@ export default function SignIn() {
     })
   
    
-    useEffect(() => {
-      
-    }, [currentUser])
+    // useEffect(() => {
+    //   fetchData()
+    // }, [isLogged, postList])
 
 
   return (

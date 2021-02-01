@@ -8,7 +8,8 @@ import { useParams } from "react-router-dom";
 
 import MenuComponent from "../components/MenuComponent"
 
-import {fetchDataDetail} from "../helper/FetchData"
+// import {fetchDataDetail} from "../helper/FetchData"
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,21 +27,28 @@ const DetailPage = () => {
   const classes = useStyles();
   const { slug } = useParams();
   const [postDetail, setPostDetail] = useState()
+  console.log(slug)
 
-  
-    
-    
-  fetchDataDetail(slug)
-    .then((data) => { 
-        setPostDetail(data)
-        
-    })
-    .catch((err) => {
-        // toast.error(err.message || " an error occured");
-        console.log(err)      
-    });
-    
-
+  const fetchDataDetail = async () => {
+    console.log(slug)
+    const Token= localStorage.getItem("Token")
+    if (Token){
+        const res = await axios.get(`https://rd-restful-blog.herokuapp.com/${slug}/detail`,{
+        headers: {
+          "Authorization": `Token ${Token}`,
+        }
+      })
+      console.log(res?.data)
+      console.log("heelo with token")
+      setPostDetail(res?.data)
+    }else{
+      const res = await axios.get(`https://rd-restful-blog.herokuapp.com/${slug}/detail`)
+      console.log("heelo without token")
+      console.log(res?.data)
+      setPostDetail(res?.data)
+    }
+ 
+ }
   
 
   useEffect(() => {

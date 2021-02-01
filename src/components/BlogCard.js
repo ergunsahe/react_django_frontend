@@ -58,6 +58,7 @@ export default function BlogCard({post}) {
   };
 
   return (
+    
     <Card className={classes.root}>
         <Link color='inherit' style={{textDecoration:'none'}} href={`/${post.slug}/detail/`} >
         <CardHeader className={classes.header}

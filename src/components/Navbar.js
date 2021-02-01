@@ -1,4 +1,4 @@
-import React, {useContext } from 'react';
+import React, {useContext, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -84,8 +84,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function NavBar() {
-  const {currentUser, setCurrentUser } = useContext(AuthContext);
+export default function NavBar({isLogged}) {
+  const {postList, setPostList, setLogged } = useContext(AuthContext);
   let history = useHistory();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -104,9 +104,10 @@ export default function NavBar() {
   const matches = useMediaQuery('(min-width:750px)');
 
   const postLogout = async () =>{
+    handleClose()
     await axios.post("https://rd-restful-blog.herokuapp.com/auth/logout/")
-    setCurrentUser(null)
-    
+    setPostList(false)  
+    setLogged(false)
     localStorage.setItem("Token", "")
     localStorage.setItem("currentUser", "")
     localStorage.setItem("isLoggedIn", false)
@@ -114,8 +115,10 @@ export default function NavBar() {
     
     
     };
-  // useEffect(() =>{
+    console.log(isLogged)
 
+  // useEffect(() =>{
+    
   // }, [localStorage.getItem('Token')])
   
 
@@ -132,7 +135,7 @@ export default function NavBar() {
           <Typography variant="h6" className={classes.title}>
           Blog
           </Typography>
-          <Typography>{currentUser}</Typography>
+          {/* <Typography>{currentUser}</Typography> */}
 
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -195,7 +198,7 @@ export default function NavBar() {
                         <MenuItem onClick={handleClose}>Profile</MenuItem>
                       </Link>
                                   
-                      <MenuItem onClick={() => handleClose("/logout")}>Logout</MenuItem>
+                      <Button color="secondary" onClick={() => postLogout()}>Logout</Button>
                         
                       
                   </Menu>

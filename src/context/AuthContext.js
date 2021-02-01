@@ -3,28 +3,17 @@ import axios from "axios";
 
 
 
-export const AuthContext = createContext();
+export const AuthContext = createContext(null);
 
 
 function AuthContextProvider(props) {
-  const [postList, setPostList] = useState();
+  const [postList, setPostList] = useState(false);
+  const [isLogged, setLogged] = useState(false);
   // const [currentUser, setCurrentUser] = useState(null);
-  const [currentUser, setCurrentUser] = useState(null);
-
-  const fetchDataList = async (data) => {
-    const res = await axios.get('https://rd-restful-blog.herokuapp.com/list/', data)
-    setPostList(res?.data)
-  }
-
-  // const fetchDataLogin = async (path, data) => {
-  //   const res = await axios.post(path, data)
-  //   localStorage.setItem("Token", res?.data)
-  // }
-
 
   
   return (
-    <AuthContext.Provider value={{ postList, setPostList, fetchDataList, setCurrentUser, currentUser }}>
+    <AuthContext.Provider value={{ postList, setPostList, isLogged, setLogged}}>
       {props.children}
     </AuthContext.Provider>
   );

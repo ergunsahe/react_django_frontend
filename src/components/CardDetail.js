@@ -148,9 +148,9 @@ export default function CardDetail({post, fetchData}) {
     });
   }
   useEffect(() =>{
+    fetchData()
     
-    fetchDataList()
-  }, [like, onSubmit])
+  }, [])
   return (
     <Card className={matches ? classes.root : classes.root2}>
       <CardHeader

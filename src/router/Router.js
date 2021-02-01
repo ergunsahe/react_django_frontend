@@ -1,5 +1,5 @@
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import  DetailPage from "../pages/DetailPage";
 import  HomePage from "../pages/HomePage";
 import SignUp from "../pages/Register" 
@@ -13,14 +13,19 @@ import { AuthContext } from "../context/AuthContext";
 
 
 function AppRouter(params) {
-    // const {currentUser, isLoggedIn} = useContext(AuthContext)
+    const {postList, isLogged} = useContext(AuthContext)
+
+    useEffect(() =>{
+        localStorage.getItem("Token")
+    }, [postList, isLogged])
     
     
     return (
         <Router>
-            <Navbar/>
+            <Navbar isLogged={isLogged}/>
             <Switch>
                 <Route exact path="/" component={HomePage} />
+                <Route exact path="/:slug/detail" component={DetailPage} />
                 {
                     !localStorage.getItem("Token")
                     
@@ -28,11 +33,10 @@ function AppRouter(params) {
                     <>
                         <Route exact path="/register" component={SignUp} />
                         <Route exact path="/login" component={SignIn} />
-                        <Route exact path="/:slug/detail" component={DetailPage} />
                     </>
                     :
                     <> 
-                        <Route exact path="/:slug/detail" component={DetailPage} />
+                        
                         <Route exact path="/profile" component={ProfilePage} />
                         <Route exact path="/create" component={PostPage} />
                         <Route exact path="/:slug/update" component={UpdatePost} />
