@@ -5,11 +5,16 @@ import {AuthContext} from "../context/AuthContext";
 import logo from '../assets/load.gif';
 import { makeStyles } from "@material-ui/core/styles";
 import PaginatPage from '../components/Pagination';
+import { toast, ToastContainer} from "react-toastify";
+import { useLocation} from "react-router-dom";
+import 'react-toastify/dist/ReactToastify.css'
 
 
 
 const HomePage = () => {
   // const [postData, setPostData] = useState([]);
+  const location = useLocation()
+  const message = location?.state
   const {postData, fetchDataList, loading} = useContext(AuthContext);
   // const [loading, setLoading] = useState([])
   const [currentPage, setCurrentPage] = useState(1);
@@ -50,6 +55,10 @@ const HomePage = () => {
    
     
   }, [loading]);
+  useEffect(() => {
+   toast.success(message?.detail)
+    
+  }, [location]);
 
   // Get current posts
 
@@ -83,6 +92,17 @@ const HomePage = () => {
 
 
       <CardList posts={currentPosts} />
+      <ToastContainer
+        position="top-center"
+        autoClose={6000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      /> 
       <PaginatPage postsPerPage={postsPerPage} 
       totalPosts={postData?.length} 
       paging={paginate} />

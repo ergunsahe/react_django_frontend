@@ -15,7 +15,8 @@ import Container from '@material-ui/core/Container';
 import { fetchData } from "../helper/FetchData";
 import { useHistory } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import { toast, ToastContainer } from "react-toastify";
+import { toast, ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'
 import {useFormik} from "formik"
 import * as Yup from "yup"
 
@@ -57,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
   
-  const {setLogged, setCurrentUser, fetchDataLogin} = useContext(AuthContext)
+  const { fetchDataLogin} = useContext(AuthContext)
   let history = useHistory();
   const classes = useStyles();
   
@@ -181,7 +182,7 @@ export default function SignIn() {
               </Link>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="/register" variant="body2">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>

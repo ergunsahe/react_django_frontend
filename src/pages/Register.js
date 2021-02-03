@@ -13,6 +13,7 @@ import {useFormik} from "formik"
 import { useHistory } from "react-router-dom";
 import { fetchData } from "../helper/FetchData";
 import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -73,13 +74,17 @@ export default function SignUp() {
   }
   
   const onSubmit = (values) =>{
+    
     fetchData("https://rd-restful-blog.herokuapp.com/users/register/", values)
     .then((data) => { 
-
-        history.push("/login");
+        
+        history.push({
+          pathname:"/login",
+          state:{detail:"You are registered successfully"}
+        });
       })
       .catch((err) => {
-        toast.error(err.message || " an error occured");      
+        toast.error(" an error occured");      
       });
     }
 
@@ -104,7 +109,7 @@ export default function SignUp() {
               </Typography>
               <form className={classes.form} noValidate onSubmit={formik.handleSubmit}>
                 <TextField
-                  // autoComplate="username"
+                  autoComplate="username"
                   name="username"
                   variant="outlined"
                   margin="normal"
@@ -130,7 +135,7 @@ export default function SignUp() {
                   label="Email"
                   type="email"
                   id="email"
-                  // autoComplete="email"
+                  autoComplete="email"
                   value={formik.values.email}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -148,7 +153,7 @@ export default function SignUp() {
                   label="Password"
                   type="password"
                   id="password"
-                  // autoComplete="current-password"
+                  autoComplete="current-password"
                   value={formik.values.password}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -166,7 +171,7 @@ export default function SignUp() {
                   label="Password2"
                   type="password"
                   id="password2"
-                  // autoComplete="current-password2"
+                  autoComplete="current-password2"
                   value={formik.values.password2}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -186,15 +191,19 @@ export default function SignUp() {
                 >
                   Sign Up
                 </Button>
-                <ToastContainer/>
+                <ToastContainer
+                  position="top-center"
+                  autoClose={6000}
+                  hideProgressBar
+                  newestOnTop={false}
+                  closeOnClick
+                  rtl
+                  pauseOnFocusLoss
+                  draggable
+                  pauseOnHover
+                />
               </form>
-              {/*           <Grid container className={classes.linkWrapper}>
-                <Grid item xs textAlign="center">
-                  <Link href="#" variant="body2" mx="auto">
-                    Forgot password?
-                  </Link>
-                </Grid>
-              </Grid> */}
+              
               <Grid container className={classes.linkWrapper}>
                 <Grid item xs>
                   <Link href="/login" variant="body2" mx="auto">

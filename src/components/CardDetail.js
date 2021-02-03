@@ -19,8 +19,9 @@ import Collapse from '@material-ui/core/Collapse';
 import Badge from '@material-ui/core/Badge';
 import moment from 'moment';
 import { postData, postDataLike} from "../helper/PostData"
-import { toast, ToastContainer } from "react-toastify";
-import { useHistory } from "react-router-dom";
+import { toast, ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'
+import { useHistory, useLocation} from "react-router-dom";
 
 import TextField from '@material-ui/core/TextField';
 
@@ -86,11 +87,14 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function CardDetail({post, fetchData}) {
+ 
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
   const [isLiked, setLiked] = useState(false)
   const [isComment, setComment] = useState(false)
   const history = useHistory()
+  const location = useLocation()
+  const message = location?.state
   const {currentUser, fetchDataList}=useContext(AuthContext)
 
   const handleExpandClick = () => {
@@ -114,6 +118,7 @@ export default function CardDetail({post, fetchData}) {
  
 
   const onSubmit = (values) =>{
+    
     postData(`https://rd-restful-blog.herokuapp.com/${post.slug}/comment/`, values)
     .then((data) => { 
       fetchData()
@@ -122,7 +127,12 @@ export default function CardDetail({post, fetchData}) {
       formik.values.content = ''
     })
     .catch((err) => {
-      toast.error(err.message || " an error occured");      
+      toast.error(
+        <div>
+          <h4 style={{display:"inline"}}>You should sign in.Do you want to </h4>
+          <a href="/login">Sign in</a>
+        </div>
+        );    
     });
   }
 
@@ -146,7 +156,13 @@ export default function CardDetail({post, fetchData}) {
       }    
     })
     .catch((err) => {
-      toast.error(err.message || " an error occured");      
+      
+      toast.error(
+        <div>
+          <h4 style={{display:"inline"}}>You should sign in.Do you want to </h4>
+          <a href="/login">Sign in</a>
+        </div>
+        );      
     });
   }
   useEffect(() =>{
@@ -157,6 +173,16 @@ export default function CardDetail({post, fetchData}) {
     fetchDataList()
   
   }, [isLiked, isComment])
+
+  useEffect(() =>{
+   
+    toast.success(message?.detail)
+  
+  }, [location])
+  
+  
+
+
   return (
     <Card className={matches ? classes.root : classes.root2}>
       <CardHeader
@@ -212,7 +238,18 @@ export default function CardDetail({post, fetchData}) {
         </IconButton>
           <Typography style={{color:"#187965"}}>See Comments</Typography>
       </CardActions>
-      
+
+      <ToastContainer 
+        position="top-center"
+        autoClose={6000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <form className={classes.commentForm} onSubmit={formik.handleSubmit}>
         <TextField
             name='content'
@@ -243,9 +280,9 @@ export default function CardDetail({post, fetchData}) {
             className={classes.button}
             endIcon={<SendIcon>send</SendIcon>}
             // onClick={() =>{onSubmit()}}
-        >Send</Button>
-        <ToastContainer/>
+            >Send</Button>
       </form>
+      
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           {post?.comments.map((comment, index) =>{

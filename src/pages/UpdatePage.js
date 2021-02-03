@@ -161,7 +161,10 @@ const UpdatePost = () => {
       })
       .then((data) => { 
         
-        history.push(`/${slug}/detail/`);
+        history.push({
+          pathname:`/${slug}/detail/`,
+          state:{detail:'post is updated successfully'}
+        });
       })
       .catch((err) => {
         toast.error(err.message || " an error occured");      
@@ -285,8 +288,18 @@ const UpdatePost = () => {
               >
                 Update
               </Button>
-              <ToastContainer/>
             </form>
+              <ToastContainer
+                position="top-center"
+                autoClose={6000}
+                hideProgressBar
+                newestOnTop={false}
+                closeOnClick
+                rtl
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+              />
           </div>
         </Grid>
       </Grid>

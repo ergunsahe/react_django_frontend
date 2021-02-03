@@ -15,10 +15,12 @@ import Select from '@material-ui/core/Select';
 
 import * as Yup from "yup";
 import {useFormik} from "formik"
-import { useHistory } from "react-router-dom";
+import { useHistory} from "react-router-dom";
 
 import { postData } from "../helper/PostData";
-import { toast, ToastContainer } from "react-toastify";
+import { toast, ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'
+
 
   
   const CssTextField = withStyles({
@@ -140,10 +142,13 @@ const PostPage = () => {
     postData("https://rd-restful-blog.herokuapp.com/create/", values)
     .then((data) => { 
 
-        history.push("/");
+        history.push({
+          pathname:"/",
+          state:{detail:'post is created successfully'}
+        });
       })
       .catch((err) => {
-        toast.error(err.message || " an error occured");      
+        toast.error(" an error occured");      
       });
     }
 
