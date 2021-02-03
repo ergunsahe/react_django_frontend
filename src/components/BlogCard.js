@@ -23,7 +23,24 @@ import moment from 'moment';
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
-    marginTop:50
+    marginTop:50,
+    opacity:0.8,
+    borderRadius:'70%',
+    padding:'10%',
+    backgroundImage:`url('https://images.unsplash.com/photo-1528458965990-428de4b1cb0d?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxleHBsb3JlLWZlZWR8M3x8fGVufDB8fHw%3D&w=1000&q=80')`, 
+    backgroundRepeat: 'no-repeat', 
+    backgroundSize:'cover',
+    cursor: "pointer",
+    transform: 'rotate(0deg)',
+    transition: theme.transitions.create(['hover', 'transform'], {
+      duration: theme.transitions.duration.complex,
+      easing:theme.transitions.easing.easeInOut
+    }),
+    '&:hover':{
+      opacity:1,
+      transform: "scale(1.2)"
+      
+    }
   },
   media: {
 
@@ -75,7 +92,7 @@ export default function BlogCard({post}) {
         <CardMedia
           className={classes.media}
           image= {`${post.image}`}
-          title="Paella dish"
+          title="Post Image"
         />
         </Link>
         <CardContent>

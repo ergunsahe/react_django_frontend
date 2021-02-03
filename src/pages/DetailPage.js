@@ -9,8 +9,13 @@ import axios from "axios";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    overflow:"hidden"
+    overflow:"hidden",
+    backgroundImage:`url('https://i.pinimg.com/originals/42/b3/fe/42b3fe44e95db5d6bee0f11618f029ca.png')`, 
+    backgroundRepeat: 'no-repeat', 
+    backgroundSize:'cover'
+
   },
+  
   paper: {
     padding: theme.spacing(2),
     textAlign: "center",

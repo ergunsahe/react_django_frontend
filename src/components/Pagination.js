@@ -21,7 +21,7 @@ const PaginatPage = ({postsPerPage, totalPosts, paging}) => {
         stylePaginate:{
         
           marginTop:50,
-          marginBottom:50,
+          marginBottom:100,
         
           
         }

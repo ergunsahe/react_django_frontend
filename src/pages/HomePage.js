@@ -26,6 +26,9 @@ const HomePage = () => {
     
       justifyContent: "center",
       marginTop:50
+    },
+    container:{
+      margin:'10%'
     }
   }));
   const classes = useStyles();
@@ -85,28 +88,31 @@ const HomePage = () => {
     }
     else 
     return(
-    <Container>
-      <PaginatPage postsPerPage={postsPerPage} 
-      totalPosts={postData?.length} 
-      paging={paginate} />
+      <div style={{backgroundImage:`url('https://images.unsplash.com/photo-1594284487150-54d64729129c?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHw%3D&w=1000&q=80')`, overflow:'hidden', backgroundRepeat: 'no-repeat', backgroundSize:'cover'}}>
+          <Container >
+            <PaginatPage postsPerPage={postsPerPage} 
+            totalPosts={postData?.length} 
+            paging={paginate} />
 
 
-      <CardList posts={currentPosts} />
-      <ToastContainer
-        position="top-center"
-        autoClose={6000}
-        hideProgressBar
-        newestOnTop={false}
-        closeOnClick
-        rtl
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      /> 
-      <PaginatPage postsPerPage={postsPerPage} 
-      totalPosts={postData?.length} 
-      paging={paginate} />
-    </Container>
+            <CardList posts={currentPosts} />
+            <ToastContainer
+              position="top-center"
+              autoClose={6000}
+              hideProgressBar
+              newestOnTop={false}
+              closeOnClick
+              rtl
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+            /> 
+            <PaginatPage postsPerPage={postsPerPage} 
+            totalPosts={postData?.length} 
+            paging={paginate} />
+          </Container>
+
+      </div>
     )
     
 };

@@ -34,7 +34,11 @@ const useStyles = makeStyles((theme) => ({
   },
   root: {
     flexGrow: 1,
+    
     overflow:'hidden'
+  },
+  nav:{
+    backgroundColor:'#3196E2',
   },
   menuButton: {
     marginRight: theme.spacing(),
@@ -126,7 +130,7 @@ export default function NavBar({isLogged}) {
   return (
     <div className={classes.root}>
    
-      <AppBar position="static">
+      <AppBar className={classes.nav} position="static">
         <Toolbar>
           <Link href="/" >
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">

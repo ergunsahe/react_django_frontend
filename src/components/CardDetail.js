@@ -39,9 +39,12 @@ const useStyles = makeStyles((theme) => ({
   root: {
     // maxWidth: 350,
     minHeight:'100%',
-    marginTop : 50,
+    paddingTop:50,
     paddingRight : 150,
     paddingLeft : 150,
+    backgroundImage:`url('https://i.pinimg.com/originals/42/b3/fe/42b3fe44e95db5d6bee0f11618f029ca.png')`, 
+    backgroundRepeat: 'no-repeat', 
+    backgroundSize:'cover'
     
   },
   
