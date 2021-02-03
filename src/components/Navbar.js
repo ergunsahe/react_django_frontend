@@ -86,7 +86,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NavBar({isLogged}) {
   const [navRender, setRender] = React.useState(false);
-  const {setLogged } = useContext(AuthContext);
+  const {setLogged, currentUser } = useContext(AuthContext);
   let history = useHistory();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -136,7 +136,7 @@ export default function NavBar({isLogged}) {
           <Typography variant="h6" className={classes.title}>
           Blog
           </Typography>
-          {/* <Typography>{currentUser}</Typography> */}
+          <Typography>{currentUser}</Typography>
 
           <div className={classes.search}>
             <div className={classes.searchIcon}>

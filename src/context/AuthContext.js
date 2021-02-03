@@ -11,7 +11,7 @@ function AuthContextProvider(props) {
   const [isLogged, setLogged] = useState(false);
   const [loading, setLoading] = useState([])
   
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState('');
 
   const fetchDataList = async () =>{
     
@@ -27,13 +27,28 @@ function AuthContextProvider(props) {
       console.error(error);
     }
   }
+  
+  const fetchDataLogin = async (data) => {
+    
+    try {
+      const response = await axios.post("https://rd-restful-blog.herokuapp.com/auth/login/", data)
+      setLogged(true)
+      setCurrentUser(response?.data.user.username)
+      
+      return response?.data;
+    } catch (error) {
+      console.log(error)
+    }
+  }
+    
+   
 
   useEffect(() =>{
     setLoading(false)
   },[postData])
   
   return (
-    <AuthContext.Provider value={{ loading, setLoading, isLogged, setLogged, postData, fetchDataList, currentUser, setCurrentUser}}>
+    <AuthContext.Provider value={{ loading, setLoading, isLogged, setLogged, postData, fetchDataList, currentUser, setCurrentUser, fetchDataLogin}}>
       {props.children}
     </AuthContext.Provider>
   );
