@@ -32,7 +32,7 @@ const HomePage = () => {
       justifyContent:'center',
       width:'100vw',
       height:'100%vh',
-      backgroundImage:`url('https://images.unsplash.com/photo-1594284487150-54d64729129c?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHw%3D&w=1000&q=80')`,
+      backgroundImage:`url('https://images.unsplash.com/photo-1458682625221-3a45f8a844c7?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1267&q=80')`,
       overflow:'hidden', 
       backgroundRepeat: 'no-repeat', 
       backgroundSize:'cover'
@@ -93,7 +93,7 @@ const HomePage = () => {
     }
     else 
     return(
-      <div style={{backgroundImage:`url('https://images.unsplash.com/photo-1594284487150-54d64729129c?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHw%3D&w=1000&q=80')`, overflow:'hidden', backgroundRepeat: 'no-repeat', backgroundSize:'cover'}}>
+      <div style={{backgroundImage:`url('https://images.unsplash.com/photo-1487088678257-3a541e6e3922?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MzE1fHxibG9nfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60')`, overflow:'hidden', backgroundRepeat: 'no-repeat', backgroundSize:'cover'}}>
           <Container >
             <PaginatPage postsPerPage={postsPerPage} 
             totalPosts={postData?.length} 

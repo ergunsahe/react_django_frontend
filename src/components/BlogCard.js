@@ -24,8 +24,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
     marginTop:50,
+    boxShadow:`0 5px 15px`,
     opacity:0.8,
-    borderRadius:'70%',
+    borderRadius:'30%',
     padding:'10%',
     backgroundImage:`url('https://images.unsplash.com/photo-1528458965990-428de4b1cb0d?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxleHBsb3JlLWZlZWR8M3x8fGVufDB8fHw%3D&w=1000&q=80')`, 
     backgroundRepeat: 'no-repeat', 
