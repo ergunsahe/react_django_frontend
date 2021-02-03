@@ -16,7 +16,7 @@ const HomePage = () => {
   const location = useLocation()
   const message = location?.state
   const {postData, fetchDataList, loading} = useContext(AuthContext);
-  // const [loading, setLoading] = useState([])
+  
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(6);
   
@@ -24,11 +24,19 @@ const HomePage = () => {
   const useStyles = makeStyles((theme) => ({
     styleLogo:{
     
-      justifyContent: "center",
-      marginTop:50
+      alignSelf:'center',
+      marginTop:50,
     },
     container:{
-      margin:'10%'
+      display:'flex',
+      justifyContent:'center',
+      width:'100vw',
+      height:'100%vh',
+      backgroundImage:`url('https://images.unsplash.com/photo-1594284487150-54d64729129c?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHw%3D&w=1000&q=80')`,
+      overflow:'hidden', 
+      backgroundRepeat: 'no-repeat', 
+      backgroundSize:'cover'
+      
     }
   }));
   const classes = useStyles();
@@ -48,16 +56,13 @@ const HomePage = () => {
   //   }
   // }
 
-
+ 
 
   useEffect(() => {
     fetchDataList();
   }, []);
   
-  useEffect(() => {
-   
-    
-  }, [loading]);
+  
   useEffect(() => {
    toast.success(message?.detail)
     

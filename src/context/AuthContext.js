@@ -9,18 +9,16 @@ export const AuthContext = createContext(null);
 function AuthContextProvider(props) {
   const [postData, setPostData] = useState([]);
   const [isLogged, setLogged] = useState(false);
-  const [loading, setLoading] = useState([])
+  const [loading, setLoading] = useState(true)
   
   const [currentUser, setCurrentUser] = useState('');
 
   const fetchDataList = async () =>{
     
-    
     try {
       const results = await axios.get('https://rd-restful-blog.herokuapp.com/list/');
       setPostData(results?.data);
-     
-      
+          
       return results?.data
     
     } catch (error) {
@@ -48,7 +46,7 @@ function AuthContextProvider(props) {
   },[postData])
   
   return (
-    <AuthContext.Provider value={{ loading, setLoading, isLogged, setLogged, postData, fetchDataList, currentUser, setCurrentUser, fetchDataLogin}}>
+    <AuthContext.Provider value={{loading, isLogged, setLogged, postData, fetchDataList, currentUser, setCurrentUser, fetchDataLogin}}>
       {props.children}
     </AuthContext.Provider>
   );

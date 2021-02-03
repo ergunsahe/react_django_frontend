@@ -12,7 +12,7 @@ const CardList = ({posts}) => {
 
 
    
-    <Grid container spacing={5}>
+    <Grid container spacing={5} style={{transition:`all '1s' ease`}}>
        {posts?.map((post, index) =>{
          return(
           <Grid key={index} item xs={12} sm={4}>
