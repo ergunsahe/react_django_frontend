@@ -144,7 +144,7 @@ const PostPage = () => {
 
         history.push({
           pathname:"/",
-          state:{detail:'post is created successfully'}
+          state:{detail:'Post is created successfully'}
         });
       })
       .catch((err) => {

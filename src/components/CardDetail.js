@@ -94,7 +94,7 @@ export default function CardDetail({post, fetchData}) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
   const [isLiked, setLiked] = useState(false)
-  const [isComment, setComment] = useState(false)
+  // const [isComment, setComment] = useState(false)
   const history = useHistory()
   const location = useLocation()
   const message = location?.state
@@ -126,7 +126,6 @@ export default function CardDetail({post, fetchData}) {
     .then((data) => { 
       fetchData()
       history.push(`/${post.slug}/detail/`);
-      setComment(true)
       formik.values.content = ''
     })
     .catch((err) => {
@@ -175,7 +174,7 @@ export default function CardDetail({post, fetchData}) {
   useEffect(() =>{
     fetchDataList()
   
-  }, [isLiked, isComment])
+  }, [post?.like_count, post?.comment_count])
 
   useEffect(() =>{
    

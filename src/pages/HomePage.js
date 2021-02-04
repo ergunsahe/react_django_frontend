@@ -10,9 +10,22 @@ import { useLocation} from "react-router-dom";
 import 'react-toastify/dist/ReactToastify.css'
 
 
+const useStyles = makeStyles((theme) => ({
+  styleLogo:{
+  
+    alignSelf:'center',
+    marginTop:50,
+  },
+  container:{
+    display:'flex',
+    justifyContent:'center',
+    
+  }
+}));
 
 const HomePage = () => {
-  // const [postData, setPostData] = useState([]);
+  
+  const classes = useStyles();
   const location = useLocation()
   const message = location?.state
   const {postData, fetchDataList, loading} = useContext(AuthContext);
@@ -21,41 +34,6 @@ const HomePage = () => {
   const [postsPerPage, setPostsPerPage] = useState(6);
   
   
-  const useStyles = makeStyles((theme) => ({
-    styleLogo:{
-    
-      alignSelf:'center',
-      marginTop:50,
-    },
-    container:{
-      display:'flex',
-      justifyContent:'center',
-      width:'100vw',
-      height:'100%vh',
-      backgroundImage:`url('https://images.unsplash.com/photo-1458682625221-3a45f8a844c7?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1267&q=80')`,
-      overflow:'hidden', 
-      backgroundRepeat: 'no-repeat', 
-      backgroundSize:'cover'
-      
-    }
-  }));
-  const classes = useStyles();
-  
-  
-
-  // async function fetchData() {
-  //   setLoading(true)
-  //   try {
-  //     const results = await axios.get(
-  //       'https://rd-restful-blog.herokuapp.com/list/'
-  //     );
-  //     setPostData(results?.data);
-  //     setLoading(false)
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
-
  
 
   useEffect(() => {
@@ -66,7 +44,7 @@ const HomePage = () => {
   useEffect(() => {
    toast.success(message?.detail)
     
-  }, [location]);
+  }, [location, postData]);
 
   // Get current posts
 

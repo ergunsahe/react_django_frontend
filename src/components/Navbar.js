@@ -140,7 +140,7 @@ export default function NavBar({isLogged}) {
           <Typography variant="h6" className={classes.title}>
           Blog
           </Typography>
-          <Typography>{currentUser}</Typography>
+          <Typography>{currentUser ? `Hello ${currentUser}`:null}</Typography>
 
           <div className={classes.search}>
             <div className={classes.searchIcon}>

@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect} from "react";
+import { createContext, useState} from "react";
 import axios from "axios"; 
 
 
@@ -18,8 +18,9 @@ function AuthContextProvider(props) {
     try {
       const results = await axios.get('https://rd-restful-blog.herokuapp.com/list/');
       setPostData(results?.data);
+      setLoading(false)
           
-      return results?.data
+      
     
     } catch (error) {
       console.error(error);
@@ -33,6 +34,7 @@ function AuthContextProvider(props) {
       setLogged(true)
       setCurrentUser(response?.data.user.username)
       
+      
       return response?.data;
     } catch (error) {
       console.log(error)
@@ -40,10 +42,6 @@ function AuthContextProvider(props) {
   }
     
    
-
-  useEffect(() =>{
-    setLoading(false)
-  },[postData])
   
   return (
     <AuthContext.Provider value={{loading, isLogged, setLogged, postData, fetchDataList, currentUser, setCurrentUser, fetchDataLogin}}>

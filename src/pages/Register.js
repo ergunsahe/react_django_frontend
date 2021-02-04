@@ -84,7 +84,7 @@ export default function SignUp() {
         });
       })
       .catch((err) => {
-        toast.error(" an error occured");      
+        toast.error("An error occured. Please check informations, probably your email or username already used");      
       });
     }
 
